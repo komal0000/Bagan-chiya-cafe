@@ -13,7 +13,7 @@ class MakeAdmin extends Command
      *
      * @var string
      */
-    protected $signature = 'app:make-admin';
+    protected $signature = 'make:admin';
 
     /**
      * The console command description.
