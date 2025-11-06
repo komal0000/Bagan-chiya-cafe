@@ -152,7 +152,7 @@
         <!-- Special Offer Section -->
         <section class="special-offer-section section">
             <div class="section-container">
-                <h2 class="section-title">{{ $specialOfferTitle }}</h2>
+                <h2 class="section-title1">{{ $specialOfferTitle }}</h2>
                 <div class="sort-controls">
                     <label for="sortSpecialOffers">Sort by Title:</label>
                     <select id="sortSpecialOffers" onchange="sortSpecialOfferItems()">
@@ -195,8 +195,8 @@
 
         <!-- Additional Sections -->
         <section class="additional-sections section">
+            <h2 class="section-title1">Additional Sections</h2>
             <div class="section-container">
-                <h2 class="section-title">Additional Sections</h2>
                 <div class="sort-controls">
                     <label for="sortAdditionalSections">Sort by Title:</label>
                     <select id="sortAdditionalSections" onchange="sortAdditionalSections()">
@@ -728,6 +728,15 @@
                 text-shadow: 1px 1px 3px rgba(47, 123, 62, 0.1);
             }
 
+            .section-title1 {
+                font-size: 1.8em;
+                font-weight: 800;
+                color: #1a3c34;
+                margin-bottom: 16px;
+                font-family: 'Great Vibes', cursive;
+                position: relative;
+                text-shadow: 1px 1px 3px rgba(47, 123, 62, 0.1);
+            }
             .section-title::after {
                 content: '';
                 position: absolute;
@@ -738,6 +747,9 @@
                 height: 3px;
                 background: #2a8b4e;
                 border-radius: 2px;
+            }
+
+            .section:first-child .section-title::after {
                 animation: pulse 3s infinite alternate;
             }
 
@@ -986,7 +998,7 @@
                 background: #ffffff;
                 border-radius: 10px;
                 margin-bottom: 16px;
-                text-align: center;
+                /* text-align: center; */
             }
 
             .sections-container {

@@ -8,65 +8,128 @@
 @endsection
 
 @section('content')
-    <section class="about-hero">
-        <div class="hero-content">
-            <h1>{{ $about->title ?? '' }}</h1>
-            <h1><span>{{ $about->subtitle ?? '' }}</span></h1>
-            <p id="dynamic-date">
-                {{ $about->description ?? '' }}
-            </p>
-            <div class="actions">
+    <div class="main-content">
+        <!-- Hero Section -->
+        <div class="about-section-wrapper">
+            <div class="section-header">
+                <div class="header-content">
+                    <i class="fas fa-home"></i>
+                    <div>
+                        <h2>Hero Section</h2>
+                        <p>Main welcome message and introduction</p>
+                    </div>
+                </div>
                 <button class="edit-hero-btn"
                     onclick="openEditHeroOverlay('{{ $about->title ?? '' }}', '{{ $about->subtitle ?? '' }}', '{{ $about->description ?? 'Discover the heart of Bagan Chiya Cafe, where tradition meets taste in every cup and bite.' }}')">
-                    <i class="fas fa-edit"></i> Edit Hero
+                    <i class="fas fa-edit"></i> Edit
                 </button>
             </div>
-        </div>
-    </section>
-
-    <!-- Overlay for Edit Hero Section -->
-    <div class="overlay" id="editHeroOverlay">
-        <div class="overlay-content">
-            <button class="close-btn" onclick="closeEditHeroOverlay()"><i class="fas fa-times"></i></button>
-            <div class="form-section">
-                <h2>Edit Hero Section</h2>
-                <form id="editHeroForm" method="POST" action="{{ route('admin.visitus.hero.update') }}">
-                    @csrf
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input id="editHeroTitle" name="hero_title" type="text" value="{{ $about->title ?? '' }}"
-                            required />
-                    </div>
-                    <div class="form-group">
-                        <label>Subtitle</label>
-                        <input id="editHeroSubtitle" name="hero_subtitle" type="text"
-                            value="{{ $about->subtitle ?? '' }}" required />
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea id="editHeroDescription" name="hero_description" required>{{ $about->description ?? '' }}</textarea>
-                    </div>
-                    <button type="submit"><i class="fas fa-save"></i> Save Hero</button>
-                </form>
+            <div class="hero-content">
+                <h1>{{ $about->title ?? '' }}</h1>
+                <h1><span>{{ $about->subtitle ?? '' }}</span></h1>
+                <p id="dynamic-date">
+                    {{ $about->description ?? '' }}
+                </p>
             </div>
         </div>
-    </div>
+        <div class="about-section-wrapper">
+            <div class="section-header">
+                <div class="header-content">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <div>
+                        <h2>Visit & Hours</h2>
+                        <p>Location, contact, and opening hours</p>
+                    </div>
+                </div>
+                <button class="edit-visit-btn"
+                    onclick="openEditVisitOverlay('{{ $about->map_title ?? '' }}', '{{ $about->visit_title ?? '' }}', '{{ $about->location ?? '' }}', '{{ $about->phone ?? '' }}', '{{ $about->secondary_location ?? '' }}', '{{ $about->hours ?? '' }}', '{{ $about->map_url ?? '' }}', '{{ $about->directions_url ?? '' }}')">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+            </div>
+            <div class="visit-content">
+                <div class="map-title">
+                    <h2>{{ $about->map_title ?? 'Find Us' }}</h2>
+                </div>
 
-    <section class="about-section">
-        <h2>{{ $about->about_title ?? '' }}</h2>
-        <div class="about-content">
-            <p>{{ $about->paragraph1 ?? '' }}
-            </p>
-            <p>{{ $about->paragraph2 ?? '' }}
-            </p>
-            <div class="actions">
+                <div class="info-section">
+                    <div class="header">
+                        <h1 class="title">{{ $about->visit_title ?? '' }}</h1>
+                        <div class="location">
+                            <i class="fas fa-map-marker-alt location-icon"></i>
+                            {{ $about->location ?? '' }}
+                        </div>
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <i class="fas fa-phone contact-icon"></i>
+                                <a href="tel:+{{ $about->phone ?? '' }}"
+                                    style="color: #2a8b4e; text-decoration: none;">{{ $about->phone ?? '' }}</a>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-location contact-icon"></i>
+                                {{ $about->secondary_location ?? '' }}
+                            </div>
+                        </div>
+                        <a href="{{ $about->directions_url ?? '' }}" target="_blank" class="directions-btn">
+                            Get Directions
+                        </a>
+                    </div>
+                    <div class="hours-list">
+                        <p>{{ $about->hours ?? '' }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Overlay for Edit Hero Section -->
+        <div class="overlay" id="editHeroOverlay">
+            <div class="overlay-content">
+                <button class="close-btn" onclick="closeEditHeroOverlay()"><i class="fas fa-times"></i></button>
+                <div class="form-section">
+                    <h2>Edit Hero Section</h2>
+                    <form id="editHeroForm" method="POST" action="{{ route('admin.visitus.hero.update') }}">
+                        @csrf
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input id="editHeroTitle" name="hero_title" type="text" value="{{ $about->title ?? '' }}"
+                                required />
+                        </div>
+                        <div class="form-group">
+                            <label>Subtitle</label>
+                            <input id="editHeroSubtitle" name="hero_subtitle" type="text"
+                                value="{{ $about->subtitle ?? '' }}" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="editHeroDescription" name="hero_description" required>{{ $about->description ?? '' }}</textarea>
+                        </div>
+                        <button type="submit"><i class="fas fa-save"></i> Save Hero</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="about-section-wrapper">
+            <div class="section-header">
+                <div class="header-content">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <h2>About Content</h2>
+                        <p>Our story and mission</p>
+                    </div>
+                </div>
                 <button class="edit-about-btn"
                     onclick="openEditAboutOverlay('{{ $about->about_title ?? '' }}', '{{ $about->paragraph1 ?? '' }}')">
-                    <i class="fas fa-edit"></i> Edit About
+                    <i class="fas fa-edit"></i> Edit
                 </button>
             </div>
+            <div class="about-content">
+                <h2>{{ $about->about_title ?? '' }}</h2>
+                <p>{{ $about->paragraph1 ?? '' }}</p>
+                <p>{{ $about->paragraph2 ?? '' }}</p>
+            </div>
         </div>
-    </section>
+
+    </div>
+
+    <!-- About Content Section -->
 
     <!-- Overlay for Edit About Section -->
     <div class="overlay" id="editAboutOverlay">
@@ -95,45 +158,6 @@
         </div>
     </div>
 
-    <div class="visit-hours-section">
-        <div class="map-title">
-            <h2>{{ $about->map_title ?? 'Find Us' }}</h2>
-            <div class="actions">
-                <button class="edit-visit-btn"
-                    onclick="openEditVisitOverlay('{{ $about->map_title ?? '' }}', '{{ $about->visit_title ?? '' }}', '{{ $about->location ?? '' }}', '{{ $about->phone ?? '' }}', '{{ $about->secondary_location ?? '' }}', '{{ $about->hours ?? '' }}', '{{ $about->map_url ?? '' }}', '{{ $about->directions_url ?? '' }}')">
-                    <i class="fas fa-edit"></i> Edit Visit Info
-                </button>
-            </div>
-        </div>
-
-        <div class="info-section">
-            <div class="header">
-                <h1 class="title">{{ $about->visit_title ?? '' }}</h1>
-                <div class="location">
-                    <i class="fas fa-map-marker-alt location-icon"></i>
-                    {{ $about->location ?? '' }}
-                </div>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-phone contact-icon"></i>
-                        <a href="tel:+{{ $about->phone ?? '' }}"
-                            style="color: #d1e8d4; text-decoration: none;">{{ $about->phone ?? '' }}</a>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-location contact-icon"></i>
-                        {{ $about->secondary_location ?? '' }}
-                    </div>
-                </div>
-                <a href="{{ $about->directions_url ?? '' }}" target="_blank" class="directions-btn">
-                    Get Directions
-                </a>
-            </div>
-            <div class="hours-list">
-                <p>{{ $about->hours ?? '' }}</p>
-            </div>
-        </div>
-    </div>
-
     <!-- Overlay for Edit Visit Section -->
     <div class="overlay" id="editVisitOverlay">
         <div class="overlay-content">
@@ -144,8 +168,8 @@
                     @csrf
                     <div class="form-group">
                         <label>Map Title</label>
-                        <input id="editVisitMapTitle" name="map_title" type="text" value="{{ $about->map_title ?? '' }}"
-                            required />
+                        <input id="editVisitMapTitle" name="map_title" type="text"
+                            value="{{ $about->map_title ?? '' }}" required />
                     </div>
                     <div class="form-group">
                         <label>Visit & Hours Title</label>
@@ -190,54 +214,189 @@
     @push('styles')
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
         <style>
-            .about-hero,
-            .about-section,
-            .visit-hours-section {
-                padding: 16px;
+            /* Main Container */
+            .main-content {
+                background: #f5f7fa;
+                min-height: 100vh;
+                padding: 20px;
+            }
+
+            /* Section Wrappers */
+            .about-section-wrapper {
                 background: #ffffff;
+                border-radius: 12px;
+                padding: 24px;
+                margin-bottom: 24px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+                border-left: 4px solid #2a8b4e;
+                transition: all 0.3s ease;
+            }
+
+            .about-section-wrapper:hover {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+            }
+
+            /* Section Headers */
+            .section-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                padding-bottom: 16px;
+                border-bottom: 2px solid #e2e8f0;
+            }
+
+            .section-header .header-content {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section-header .header-content i {
+                font-size: 1.8em;
+                color: #2a8b4e;
+                background: rgba(42, 139, 78, 0.1);
+                padding: 12px;
                 border-radius: 10px;
-                margin-bottom: 16px;
-
             }
 
-            .hero-content,
-            .about-content,
-            .map-title,
-            .info-section {
-                text-align: center;
-            }
-
-            .hero-content h1,
-            .about-section h2,
-            .map-title h2,
-            .info-section .title {
-                font-size: 1.5em;
+            .section-header .header-content h2 {
+                font-size: 1.4em;
+                font-weight: 600;
                 color: #1a3c34;
+                margin: 0;
+            }
+
+            .section-header .header-content p {
+                font-size: 0.85em;
+                color: #718096;
+                margin: 4px 0 0 0;
+            }
+
+            /* Hero Section */
+            .hero-content {
+                text-align: center;
+                padding: 20px 0;
+            }
+
+            .hero-content h1 {
+                font-size: 1.8em;
+                color: #1a3c34;
+                margin-bottom: 12px;
+                font-weight: 600;
             }
 
             .hero-content h1 span {
                 color: #2a8b4e;
             }
 
-            .hero-content p,
-            .about-content p,
-            .info-section p,
-            .map-title p,
-            .contact-info,
-            .location {
-                font-size: 0.9em;
+            .hero-content p {
+                font-size: 1em;
                 color: #4a5568;
-                margin: 8px 0;
+                line-height: 1.6;
+                margin: 12px 0;
             }
 
-            .hero-content .actions,
-            .about-content .actions,
-            .map-title .actions {
+            /* About Content */
+            .about-content {
+                padding: 16px 0;
+            }
+
+            .about-content h2 {
+                font-size: 1.5em;
+                color: #1a3c34;
+                margin-bottom: 16px;
+                font-weight: 600;
+                text-align: center;
+            }
+
+            .about-content p {
+                font-size: 0.95em;
+                color: #4a5568;
+                line-height: 1.7;
+                margin-bottom: 12px;
+                text-align: justify;
+            }
+
+            /* Visit Content */
+            .visit-content {
+                padding: 16px 0;
+            }
+
+            .map-title h2 {
+                font-size: 1.4em;
+                color: #1a3c34;
+                margin-bottom: 20px;
+                text-align: center;
+                font-weight: 600;
+            }
+
+            .info-section {
+                text-align: center;
+                background: #f8faf9;
+                padding: 20px;
+                border-radius: 10px;
+                margin-top: 16px;
+            }
+
+            .info-section .header {
+                margin-bottom: 16px;
+            }
+
+            .info-section .title {
+                font-size: 1.5em;
+                color: #1a3c34;
+                margin-bottom: 12px;
+                font-weight: 600;
+            }
+
+            .location {
+                font-size: 0.95em;
+                color: #4a5568;
+                margin: 12px 0;
                 display: flex;
+                align-items: center;
                 justify-content: center;
-                margin-top: 8px;
+                gap: 8px;
             }
 
+            .contact-info {
+                margin: 16px 0;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .contact-info .contact-item {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                font-size: 0.95em;
+                color: #4a5568;
+            }
+
+            .location-icon,
+            .contact-icon {
+                color: #2a8b4e;
+                font-size: 1.1em;
+            }
+
+            .hours-list p {
+                font-size: 0.95em;
+                color: #4a5568;
+                line-height: 1.6;
+                white-space: pre-line;
+            }
+
+            .hours-list p {
+                font-size: 0.95em;
+                color: #4a5568;
+                line-height: 1.6;
+                white-space: pre-line;
+            }
+
+            /* Buttons */
             .edit-hero-btn,
             .edit-about-btn,
             .edit-visit-btn {
@@ -245,72 +404,30 @@
                 color: #ffffff;
                 font-weight: 500;
                 font-size: 0.85em;
-                padding: 6px 12px;
+                padding: 8px 14px;
                 border: none;
-                border-radius: 16px;
+                border-radius: 8px;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
-                gap: 5px;
-                transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+                gap: 6px;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
             }
 
             .edit-hero-btn:hover,
             .edit-about-btn:hover,
             .edit-visit-btn:hover {
                 background: linear-gradient(135deg, #3da65f 0%, #2a8b4e 100%);
-                transform: scale(1.01);
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(42, 139, 78, 0.4);
             }
 
             .edit-hero-btn:active,
             .edit-about-btn:active,
             .edit-visit-btn:active {
-                transform: scale(1);
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            }
-
-            .map-section {
-                margin: 16px 0;
-            }
-
-            .map-container {
-                position: relative;
-                width: 100%;
-                height: 300px;
-            }
-
-            .map-container iframe {
-                width: 100%;
-                height: 100%;
-                border: 0;
-            }
-
-            .map-overlay {
-                position: absolute;
-                bottom: 10px;
-                right: 10px;
-                background: rgba(0, 0, 0, 0.5);
-                color: #ffffff;
-                font-size: 0.8em;
-                padding: 4px 8px;
-                border-radius: 4px;
-            }
-
-            .info-section .header {
-                margin-bottom: 16px;
-            }
-
-            .contact-info .contact-item {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                margin: 8px 0;
-            }
-
-            .location-icon,
-            .contact-icon {
-                color: #2a8b4e;
+                transform: translateY(0);
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
             }
 
             .directions-btn {
@@ -318,25 +435,27 @@
                 background: linear-gradient(135deg, #2a8b4e 0%, #1a5630 100%);
                 color: #ffffff;
                 font-weight: 500;
-                font-size: 0.85em;
-                padding: 8px 16px;
-                border-radius: 16px;
+                font-size: 0.9em;
+                padding: 10px 20px;
+                border-radius: 8px;
                 text-decoration: none;
-                margin: 8px 0;
-                transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+                margin: 12px 0;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
             }
 
             .directions-btn:hover {
                 background: linear-gradient(135deg, #3da65f 0%, #2a8b4e 100%);
-                transform: scale(1.01);
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(42, 139, 78, 0.4);
             }
 
             .directions-btn:active {
-                transform: scale(1);
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                transform: translateY(0);
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
             }
 
+            /* Modal Overlays */
             .overlay {
                 display: none;
                 position: fixed;
@@ -344,11 +463,11 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(0, 0, 0, 0.4);
+                background: rgba(0, 0, 0, 0.5);
                 z-index: 1000;
                 justify-content: center;
                 align-items: center;
-                animation: fadeIn 0.2s ease;
+                animation: fadeIn 0.3s ease;
             }
 
             .overlay.active {
@@ -367,20 +486,20 @@
 
             .overlay-content {
                 background: #ffffff;
-                padding: 16px;
-                border-radius: 10px;
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                padding: 24px;
+                border-radius: 12px;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
                 width: 90%;
-                max-width: 450px;
+                max-width: 500px;
                 max-height: 80vh;
                 overflow-y: auto;
                 position: relative;
-                animation: slideIn 0.2s ease;
+                animation: slideIn 0.3s ease;
             }
 
             @keyframes slideIn {
                 from {
-                    transform: translateY(10px);
+                    transform: translateY(-20px);
                     opacity: 0;
                 }
 
@@ -392,97 +511,152 @@
 
             .overlay-content .close-btn {
                 position: absolute;
-                top: 10px;
-                right: 10px;
+                top: 12px;
+                right: 12px;
                 background: none;
                 border: none;
-                font-size: 1.2em;
-                color: #1a3c34;
+                font-size: 1.5em;
+                color: #718096;
                 cursor: pointer;
-                transition: color 0.2s ease, transform 0.2s ease;
+                transition: all 0.2s ease;
+                width: 32px;
+                height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 6px;
             }
 
             .overlay-content .close-btn:hover {
-                color: #2a8b4e;
-                transform: scale(1.1);
+                background: #f7fafc;
+                color: #2d3748;
+                transform: rotate(90deg);
+            }
+
+            .overlay-content h2 {
+                font-size: 1.3em;
+                font-weight: 600;
+                color: #1a3c34;
+                margin-bottom: 20px;
+                padding-right: 30px;
             }
 
             .overlay-content .form-section {
-                background: #f9faf9;
-                padding: 12px;
-                border-radius: 8px;
-
-            }
-
-            .overlay-content .form-section h2 {
-                font-size: 1.2em;
-                font-weight: 500;
-                color: #2a8b4e;
-                margin-bottom: 8px;
+                margin-bottom: 16px;
             }
 
             .overlay-content .form-group {
-                margin-bottom: 8px;
+                margin-bottom: 16px;
             }
 
             .overlay-content .form-section label {
-                font-size: 0.85em;
+                font-size: 0.9em;
                 font-weight: 500;
                 color: #1a3c34;
-                margin-bottom: 5px;
+                margin-bottom: 6px;
                 display: block;
             }
 
             .overlay-content .form-section input,
             .overlay-content .form-section textarea {
                 width: 100%;
-                padding: 8px;
-                border: 1px solid #b8d7bc;
-                border-radius: 6px;
+                padding: 10px 12px;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
                 font-size: 0.9em;
                 color: #1a3c34;
                 background: #ffffff;
-                transition: border-color 0.2s ease, box-shadow 0.2s ease;
+                transition: all 0.2s ease;
             }
 
             .overlay-content .form-section textarea {
                 resize: vertical;
-                min-height: 80px;
+                min-height: 100px;
             }
 
             .overlay-content .form-section input:focus,
             .overlay-content .form-section textarea:focus {
-                border-color: #3da65f;
-                box-shadow: 0 0 0 2px rgba(61, 166, 95, 0.15);
+                border-color: #2a8b4e;
+                box-shadow: 0 0 0 3px rgba(42, 139, 78, 0.1);
                 outline: none;
             }
 
             .overlay-content .form-section button {
                 width: 100%;
-                padding: 8px;
+                padding: 12px;
                 background: linear-gradient(135deg, #2a8b4e 0%, #1a5630 100%);
                 color: #ffffff;
                 font-weight: 500;
-                font-size: 0.85em;
+                font-size: 0.95em;
                 border: none;
-                border-radius: 16px;
+                border-radius: 8px;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 5px;
-                transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+                gap: 8px;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
+                margin-top: 8px;
             }
 
             .overlay-content .form-section button:hover {
                 background: linear-gradient(135deg, #3da65f 0%, #2a8b4e 100%);
-                transform: scale(1.01);
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(42, 139, 78, 0.4);
             }
 
             .overlay-content .form-section button:active {
-                transform: scale(1);
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                transform: translateY(0);
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .main-content {
+                    padding: 12px;
+                }
+
+                .about-section-wrapper {
+                    padding: 16px;
+                }
+
+                .section-header {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 12px;
+                }
+
+                .section-header .header-content h2 {
+                    font-size: 1.2em;
+                }
+
+                .hero-content h1 {
+                    font-size: 1.5em;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .main-content {
+                    padding: 8px;
+                }
+
+                .about-section-wrapper {
+                    padding: 12px;
+                }
+
+                .section-header .header-content i {
+                    font-size: 1.5em;
+                    padding: 10px;
+                }
+
+                .section-header .header-content h2 {
+                    font-size: 1.1em;
+                }
+
+                .hero-content h1 {
+                    font-size: 1.3em;
+                }
             }
         </style>
     @endpush

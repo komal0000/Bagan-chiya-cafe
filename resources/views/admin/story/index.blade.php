@@ -10,19 +10,32 @@
 @section('content')
     <div class="main-content">
         <!-- Story Hero Section -->
-        <section class="story-hero">
-            <div class="hero-content">
-                <div class="badge">
-                    <i class="fas fa-leaf badge-icon"></i>
-                    <span id="badgeText">{{ $badgeText ?? 'Since Mangsir • Born in Damak' }}</span>
+        <section class="story-section-wrapper">
+            <div class="section-header">
+                <div class="section-header-left">
+                    <div class="section-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Hero Section</h2>
+                        <p class="section-subtitle">Main banner content for the story page</p>
+                    </div>
                 </div>
-                <h1>{{ $heroTitle ?? 'Our Story' }}<span>{{ $heroSubtitle ?? 'Bagan Chiya Cafe' }}</span></h1>
-                <p>{{ $heroDescription ?? 'From the heart of Damak to your cup - discover the passionate journey of Bagan Chiya Cafe, where authentic Nepali tea culture meets modern innovation and community spirit.' }}</p>
-                <div class="actions">
-                    <button class="edit-hero-btn"
-                        onclick="openEditHeroOverlay('{{ e($badgeText ?? 'Since Mangsir • Born in Damak') }}', '{{ e($heroTitle ?? 'Our Story') }}', '{{ e($heroSubtitle ?? 'Bagan Chiya Cafe') }}', '{{ e($heroDescription ?? 'From the heart of Damak to your cup - discover the passionate journey of Bagan Chiya Cafe, where authentic Nepali tea culture meets modern innovation and community spirit.') }}')">
-                        <i class="fas fa-edit"></i> Edit Hero
-                    </button>
+            </div>
+            <div class="story-hero">
+                <div class="hero-content">
+                    <div class="badge">
+                        <i class="fas fa-leaf badge-icon"></i>
+                        <span id="badgeText">{{ $badgeText ?? 'Since Mangsir • Born in Damak' }}</span>
+                    </div>
+                    <h1>{{ $heroTitle ?? 'Our Story' }}<span>{{ $heroSubtitle ?? 'Bagan Chiya Cafe' }}</span></h1>
+                    <p>{{ $heroDescription ?? 'From the heart of Damak to your cup - discover the passionate journey of Bagan Chiya Cafe, where authentic Nepali tea culture meets modern innovation and community spirit.' }}</p>
+                    <div class="actions">
+                        <button class="edit-hero-btn"
+                            onclick="openEditHeroOverlay('{{ e($badgeText ?? 'Since Mangsir • Born in Damak') }}', '{{ e($heroTitle ?? 'Our Story') }}', '{{ e($heroSubtitle ?? 'Bagan Chiya Cafe') }}', '{{ e($heroDescription ?? 'From the heart of Damak to your cup - discover the passionate journey of Bagan Chiya Cafe, where authentic Nepali tea culture meets modern innovation and community spirit.') }}')">
+                            <i class="fas fa-edit"></i> Edit Hero
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -30,21 +43,43 @@
         <!-- Story Content Section -->
         <section class="story-content">
             <div class="story-container">
-                <div class="journey-section">
-                    <h2 class="section-title">{{ $journeyTitle ?? 'The Journey Begins' }}</h2>
-                    <p class="journey-intro">{{ $journeyIntro ?? 'Every great story has humble beginnings. Ours started in the vibrant town of Damak, where the aroma of fresh tea leaves and the warmth of community spirit inspired us to create something extraordinary.' }}</p>
-                    <div class="actions">
+                <!-- Journey Section -->
+                <div class="story-section-wrapper">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-icon">
+                                <i class="fas fa-route"></i>
+                            </div>
+                            <div>
+                                <h2 class="section-title">Journey Section</h2>
+                                <p class="section-subtitle">Beginning of the story</p>
+                            </div>
+                        </div>
                         <button class="edit-journey-btn" onclick="openEditJourneyOverlay('{{ e($journeyTitle ?? 'The Journey Begins') }}', '{{ e($journeyIntro ?? 'Every great story has humble beginnings. Ours started in the vibrant town of Damak, where the aroma of fresh tea leaves and the warmth of community spirit inspired us to create something extraordinary.') }}')">
                             <i class="fas fa-edit"></i> Edit Journey
                         </button>
                     </div>
+                    <div class="journey-section">
+                        <h2 class="section-title">{{ $journeyTitle ?? 'The Journey Begins' }}</h2>
+                        <p class="journey-intro">{{ $journeyIntro ?? 'Every great story has humble beginnings. Ours started in the vibrant town of Damak, where the aroma of fresh tea leaves and the warmth of community spirit inspired us to create something extraordinary.' }}</p>
+                    </div>
                 </div>
 
-                <div class="timeline">
-                    <h2 class="section-title">Timeline</h2>
-                    <div class="actions">
+                <!-- Timeline Section -->
+                <div class="story-section-wrapper">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h2 class="section-title">Timeline</h2>
+                                <p class="section-subtitle">Key milestones in our journey</p>
+                            </div>
+                        </div>
                         <button class="add-timeline-btn" onclick="openAddTimelineOverlay()"><i class="fas fa-plus"></i> Add Timeline Item</button>
                     </div>
+                    <div class="timeline">
                     @if (isset($timelineItems) && $timelineItems->count() > 0)
                         @foreach ($timelineItems as $item)
                             <div class="timeline-item">
@@ -74,30 +109,53 @@
                     @else
                         <p class="no-items">No timeline items found. Add a new item to get started.</p>
                     @endif
+                    </div>
                 </div>
 
                 <!-- Mission Section -->
-                <div class="mission-section">
-                    <div class="mission-content">
-                        <h2 class="section-title">{{ $missionTitle ?? 'Our Mission' }}</h2>
-                        <p>{{ $missionText ?? 'We are dedicated to preserving Nepal\'s tea heritage while building sustainable futures for our farming communities. Through every cup, we connect tea lovers worldwide to the authentic flavors of the Himalayas.' }}</p>
-                        <div class="actions">
-                            <button class="edit-mission-btn" onclick="openEditMissionOverlay('{{ e($missionTitle ?? 'Our Mission') }}', '{{ e($missionText ?? 'We are dedicated to preserving Nepal\'s tea heritage while building sustainable futures for our farming communities. Through every cup, we connect tea lovers worldwide to the authentic flavors of the Himalayas.') }}')">
-                                <i class="fas fa-edit"></i> Edit Mission
-                            </button>
+                <div class="story-section-wrapper">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <div>
+                                <h2 class="section-title">Our Mission</h2>
+                                <p class="section-subtitle">Our purpose and goals</p>
+                            </div>
+                        </div>
+                        <button class="edit-mission-btn" onclick="openEditMissionOverlay('{{ e($missionTitle ?? 'Our Mission') }}', '{{ e($missionText ?? 'We are dedicated to preserving Nepal\'s tea heritage while building sustainable futures for our farming communities. Through every cup, we connect tea lovers worldwide to the authentic flavors of the Himalayas.') }}')">
+                            <i class="fas fa-edit"></i> Edit Mission
+                        </button>
+                    </div>
+                    <div class="mission-section">
+                        <div class="mission-content">
+                            <h2 class="section-title">{{ $missionTitle ?? 'Our Mission' }}</h2>
+                            <p>{{ $missionText ?? 'We are dedicated to preserving Nepal\'s tea heritage while building sustainable futures for our farming communities. Through every cup, we connect tea lovers worldwide to the authentic flavors of the Himalayas.' }}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Values Section -->
-                <div class="values-section">
-                    <h2 class="section-title">{{ $valuesTitle ?? 'Our Values' }}</h2>
-                    <div class="actions">
-                        <button class="edit-values-title-btn" onclick="openEditValuesTitleOverlay('{{ e($valuesTitle ?? 'Our Values') }}')">
-                            <i class="fas fa-edit"></i> Edit Title
-                        </button>
-                        <button class="add-value-btn" onclick="openAddValueOverlay()"><i class="fas fa-plus"></i> Add Value</button>
+                <div class="story-section-wrapper">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div>
+                                <h2 class="section-title">{{ $valuesTitle ?? 'Our Values' }}</h2>
+                                <p class="section-subtitle">Core principles that guide us</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="edit-values-title-btn" onclick="openEditValuesTitleOverlay('{{ e($valuesTitle ?? 'Our Values') }}')">
+                                <i class="fas fa-edit"></i> Edit Title
+                            </button>
+                            <button class="add-value-btn" onclick="openAddValueOverlay()"><i class="fas fa-plus"></i> Add Value</button>
+                        </div>
                     </div>
+                    <div class="values-section">
                     <div class="values-grid">
                         @if (isset($values) && $values->count() > 0)
                             @foreach ($values as $value)
@@ -128,20 +186,31 @@
                             <p class="no-items">No values found. Add a new value to get started.</p>
                         @endif
                     </div>
+                    </div>
                 </div>
 
                 <!-- Team Section -->
-                <div class="team-section">
-                    <h2 class="section-title">{{ $teamTitle ?? 'Meet Our Team' }}</h2>
-                    <p class="journey-intro">{{ $teamIntro ?? 'The passionate individuals behind every perfect cup, dedicated to sharing Nepal\'s tea culture with the world.' }}</p>
-                    <div class="actions">
-                        <button class="edit-team-title-btn" onclick="openEditTeamTitleOverlay('{{ e($teamTitle ?? 'Meet Our Team') }}', '{{ e($teamIntro ?? 'The passionate individuals behind every perfect cup, dedicated to sharing Nepal\'s tea culture with the world.') }}')">
-                            <i class="fas fa-edit"></i> Edit Title & Intro
-                        </button>
-                        <button class="add-team-btn" onclick="openAddTeamOverlay()">
-                            <i class="fas fa-plus"></i> Add Team Member
-                        </button>
+                <div class="story-section-wrapper">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div>
+                                <h2 class="section-title">{{ $teamTitle ?? 'Meet Our Team' }}</h2>
+                                <p class="section-subtitle">{{ $teamIntro ?? 'The passionate individuals behind every perfect cup' }}</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="edit-team-title-btn" onclick="openEditTeamTitleOverlay('{{ e($teamTitle ?? 'Meet Our Team') }}', '{{ e($teamIntro ?? 'The passionate individuals behind every perfect cup, dedicated to sharing Nepal\'s tea culture with the world.') }}')">
+                                <i class="fas fa-edit"></i> Edit Title & Intro
+                            </button>
+                            <button class="add-team-btn" onclick="openAddTeamOverlay()">
+                                <i class="fas fa-plus"></i> Add Team Member
+                            </button>
+                        </div>
                     </div>
+                    <div class="team-section">
                     <div class="team-grid">
                         @if (isset($teamMembers) && $teamMembers->count() > 0)
                             @foreach ($teamMembers as $member)
@@ -172,20 +241,32 @@
                             <p class="no-items">No team members found. Add a new team member to get started.</p>
                         @endif
                     </div>
+                    </div>
                 </div>
 
                 <!-- CTA Section -->
-                <div class="cta-section">
+                <div class="story-section-wrapper">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h2 class="section-title">Call to Action</h2>
+                                <p class="section-subtitle">Encourage visitors to take action</p>
+                            </div>
+                        </div>
+                        <button class="edit-cta-btn" onclick="openEditCtaOverlay('{{ e($ctaTitle ?? 'Visit Us in Damak') }}', '{{ e($ctaDescription ?? 'Experience the authentic taste of Nepal\'s finest teas in the heart of where our story began.') }}', '{{ e($ctaLink ?? asset('')) }}', '{{ e($ctaButtonText ?? 'Back to Home') }}')">
+                            <i class="fas fa-edit"></i> Edit CTA
+                        </button>
+                    </div>
+                    <div class="cta-section">
                     <h2 class="section-title">{{ $ctaTitle ?? 'Visit Us in Damak' }}</h2>
                     <p class="journey-intro">{{ $ctaDescription ?? 'Experience the authentic taste of Nepal\'s finest teas in the heart of where our story began.' }}</p>
                     <a href="{{ $ctaLink ?? asset('') }}" class="btn-enhanced">
                         <i class="fas fa-home"></i>
                         <span>{{ $ctaButtonText ?? 'Back to Home' }}</span>
                     </a>
-                    <div class="actions">
-                        <button class="edit-cta-btn" onclick="openEditCtaOverlay('{{ e($ctaTitle ?? 'Visit Us in Damak') }}', '{{ e($ctaDescription ?? 'Experience the authentic taste of Nepal\'s finest teas in the heart of where our story began.') }}', '{{ e($ctaLink ?? asset('')) }}', '{{ e($ctaButtonText ?? 'Back to Home') }}')">
-                            <i class="fas fa-edit"></i> Edit CTA
-                        </button>
                     </div>
                 </div>
             </div>
@@ -512,19 +593,60 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
         <style>
             .main-content {
-                padding: 16px;
-                background: radial-gradient(circle, #ffffff 0%, #f9faf9 100%);
-                margin: 12px;
+                padding: 20px;
+                background: #f5f7fa;
+                margin: 0;
+                min-height: 100vh;
+            }
+
+            /* Section Container - Add clear separation */
+            .story-section-wrapper {
+                background: white;
+                border-radius: 12px;
+                padding: 25px;
+                margin-bottom: 25px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+                border-left: 4px solid #2a8b4e;
+                transition: all 0.3s ease;
+            }
+
+            .story-section-wrapper:hover {
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+            }
+
+            /* Section Header - Make sections more distinct */
+            .section-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #e8f5e9;
+            }
+
+            .section-header-left {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section-icon {
+                width: 45px;
+                height: 45px;
+                background: linear-gradient(135deg, #2a8b4e 0%, #1a5630 100%);
                 border-radius: 10px;
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 1.3em;
             }
 
             .story-hero {
-                padding: 16px;
-                background: #ffffff;
-                border-radius: 10px;
-                margin-bottom: 16px;
-
+                padding: 0;
+                background: transparent;
+                border-radius: 0;
+                margin-bottom: 0;
             }
 
             .hero-content {
@@ -536,11 +658,12 @@
                 align-items: center;
                 gap: 5px;
                 background: #e6f0e9;
-                padding: 6px 12px;
-                border-radius: 16px;
-                font-size: 0.85em;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.9em;
                 color: #2a8b4e;
-                margin-bottom: 12px;
+                margin-bottom: 15px;
+                font-weight: 500;
             }
 
             .hero-content .badge .badge-icon {
@@ -548,18 +671,24 @@
             }
 
             .hero-content h1 {
-                font-size: 1.5em;
+                font-size: 2em;
                 color: #1a3c34;
+                margin-bottom: 10px;
+                font-weight: 600;
             }
 
             .hero-content h1 span {
                 color: #2a8b4e;
+                display: block;
+                font-size: 0.8em;
+                margin-top: 5px;
             }
 
             .hero-content p {
-                font-size: 0.9em;
+                font-size: 1em;
                 color: #4a5568;
-                margin: 8px 0;
+                margin: 12px 0 20px;
+                line-height: 1.6;
             }
 
             .hero-content .actions {
@@ -583,15 +712,16 @@
                 background: linear-gradient(135deg, #2a8b4e 0%, #1a5630 100%);
                 color: #ffffff;
                 font-weight: 500;
-                font-size: 0.85em;
-                padding: 6px 12px;
+                font-size: 0.9em;
+                padding: 10px 18px;
                 border: none;
-                border-radius: 16px;
+                border-radius: 8px;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
-                gap: 5px;
-                transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+                gap: 8px;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
             }
 
             .edit-hero-btn:hover,
@@ -607,8 +737,8 @@
             .edit-team-btn:hover,
             .edit-cta-btn:hover {
                 background: linear-gradient(135deg, #3da65f 0%, #2a8b4e 100%);
-                transform: scale(1.01);
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(42, 139, 78, 0.4);
             }
 
             .edit-hero-btn:active,
@@ -623,81 +753,77 @@
             .add-team-btn:active,
             .edit-team-btn:active,
             .edit-cta-btn:active {
-                transform: scale(1);
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                transform: translateY(0);
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
             }
 
             .delete-btn {
                 color: #d32f2f;
-                background: none;
-                padding: 6px 12px;
-                border: none;
-                border-radius: 16px;
+                background: #ffebee;
+                padding: 8px 14px;
+                border: 1px solid #ffcdd2;
+                border-radius: 8px;
                 cursor: pointer;
                 font-size: 0.85em;
                 display: flex;
                 align-items: center;
-                gap: 5px;
-                transition: background 0.2s ease, color 0.2s ease;
+                gap: 6px;
+                transition: all 0.2s ease;
+                font-weight: 500;
             }
 
             .delete-btn:hover {
                 color: #ffffff;
-                background: #b71c1c;
+                background: #d32f2f;
+                border-color: #d32f2f;
             }
 
             .story-content {
-                margin-top: 16px;
+                margin-top: 0;
             }
 
             .story-container {
-                max-width: 1200px;
+                max-width: 1400px;
                 margin: 0 auto;
             }
 
             .journey-section {
-                background: #ffffff;
-                padding: 12px;
-                border-radius: 10px;
-
-                margin-bottom: 16px;
+                background: transparent;
+                padding: 0;
+                border-radius: 0;
+                margin-bottom: 0;
             }
 
             .section-title {
-                font-size: 1.4em;
-                font-weight: 500;
-                color: #2a8b4e;
-                position: relative;
-                margin-bottom: 12px;
+                font-size: 1.6em;
+                font-weight: 600;
+                color: #1a3c34;
+                margin: 0;
             }
 
-            .section-title::after {
-                content: '';
-                position: absolute;
-                width: 40px;
-                height: 2px;
-                background: #2a8b4e;
-                bottom: -4px;
-                left: 0;
-                border-radius: 1px;
+            .section-subtitle {
+                font-size: 0.9em;
+                color: #718096;
+                margin-top: 5px;
             }
 
             .journey-intro {
-                font-size: 0.95em;
+                font-size: 1em;
                 color: #4a5568;
-                margin-bottom: 12px;
+                margin-bottom: 15px;
+                line-height: 1.6;
             }
 
             .timeline {
-                margin-bottom: 16px;
+                margin-bottom: 0;
             }
 
             .timeline-item {
-                background: #ffffff;
-                padding: 12px;
+                background: #f8faf9;
+                padding: 20px;
                 border-radius: 10px;
-
-                margin-bottom: 12px;
+                border: 1px solid #e2e8f0;
+                margin-bottom: 15px;
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
 

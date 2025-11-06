@@ -10,32 +10,53 @@
 @section('content')
     <div class="main-content">
         <!-- Menu Hero Section -->
-        <section class="menu-hero">
-            <div class="hero-content">
-                <h1>{{ $heroTitle ?? 'Our Menu' }}</h1>
-                <h1><span>{{ $heroSubtitle ?? 'Savor the Essence' }}</span></h1>
-                <p id="dynamic-date">{{ $heroDescription ?? 'Explore our fresh offerings available today, Thursday.' }}</p>
-                <div class="actions">
-                    <button class="edit-hero-btn"
-                        onclick="openEditHeroOverlay('{{ $heroTitle ?? 'Our Menu' }}', '{{ $heroSubtitle ?? 'Savor the Essence' }}', '{{ $heroDescription ?? 'Explore our fresh offerings available today, Thursday.' }}')">
-                        <i class="fas fa-edit"></i> Edit Hero
-                    </button>
+        <section class="menu-section-wrapper">
+            <div class="section-header">
+                <div class="section-header-left">
+                    <div class="section-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Hero Section</h2>
+                        <p class="section-subtitle">Main banner content for the menu page</p>
+                    </div>
+                </div>
+                <button class="edit-hero-btn"
+                    onclick="openEditHeroOverlay('{{ $heroTitle ?? 'Our Menu' }}', '{{ $heroSubtitle ?? 'Savor the Essence' }}', '{{ $heroDescription ?? 'Explore our fresh offerings available today, Thursday.' }}')">
+                    <i class="fas fa-edit"></i> Edit Hero
+                </button>
+            </div>
+            <div class="menu-hero">
+                <div class="hero-content">
+                    <h1>{{ $heroTitle ?? 'Our Menu' }}</h1>
+                    <h1><span>{{ $heroSubtitle ?? 'Savor the Essence' }}</span></h1>
+                    <p id="dynamic-date">{{ $heroDescription ?? 'Explore our fresh offerings available today, Thursday.' }}</p>
                 </div>
             </div>
         </section>
 
-        <!-- Menu Preview Section -->
-        <div class="preview-section">
-            <div class="preview-header">
-                <h2 id="menuTitleDisplay">{{ $menuTitle }}</h2>
-                <div class="actions">
+        <!-- Menu Categories Section -->
+        <div class="menu-section-wrapper">
+            <div class="section-header">
+                <div class="section-header-left">
+                    <div class="section-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <div>
+                        <h2 class="section-title" id="menuTitleDisplay">{{ $menuTitle }}</h2>
+                        <p class="section-subtitle">Manage your menu categories and items</p>
+                    </div>
+                </div>
+                <div class="header-actions">
                     <button class="edit-title-btn" onclick="openEditTitleOverlay('{{ $menuTitle }}')">
-                        <i class="fas fa-edit"></i> Edit
+                        <i class="fas fa-edit"></i> Edit Title
                     </button>
-                    <button class="add-category-btn" onclick="openCategoryOverlay()"><i class="fas fa-plus"></i> Add
-                        Category</button>
+                    <button class="add-category-btn" onclick="openCategoryOverlay()">
+                        <i class="fas fa-plus"></i> Add Category
+                    </button>
                 </div>
             </div>
+            <div class="preview-section">
             <div class="category-grid">
                 @foreach ($categories as $category)
                     <div class="category-card" data-name="{{ $category->name }}" data-icon="{{ $category->icon }}">
@@ -94,22 +115,31 @@
                     </div>
                 @endforeach
             </div>
+            </div>
         </div>
 
         <!-- CTA Section -->
-        <div class="cta-section">
-            <div class="cta-header">
-                <h2>Call to Action</h2>
-                <div class="actions">
-                    <button class="edit-cta-btn" onclick="openEditCtaOverlay()">
-                        <i class="fas fa-edit"></i> Edit CTA
-                    </button>
+        <div class="menu-section-wrapper">
+            <div class="section-header">
+                <div class="section-header-left">
+                    <div class="section-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Call to Action</h2>
+                        <p class="section-subtitle">Encourage visitors to take action</p>
+                    </div>
                 </div>
+                <button class="edit-cta-btn" onclick="openEditCtaOverlay()">
+                    <i class="fas fa-edit"></i> Edit CTA
+                </button>
             </div>
-            <div class="cta-content">
-                <h3>{{ $ctaTitle }}</h3>
-                <p>{{ $ctaText }}</p>
-                <a href="{{ $ctaLink }}" class="cta-button">{{ $ctaButton }}</a>
+            <div class="cta-section">
+                <div class="cta-content">
+                    <h3>{{ $ctaTitle }}</h3>
+                    <p>{{ $ctaText }}</p>
+                    <a href="{{ $ctaLink }}" class="cta-button">{{ $ctaButton }}</a>
+                </div>
             </div>
         </div>
 
@@ -316,19 +346,78 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
         <style>
             .main-content {
-                padding: 16px;
-                background: radial-gradient(circle, #ffffff 0%, #f9faf9 100%);
-                margin: 12px;
+                padding: 20px;
+                background: #f5f7fa;
+                margin: 0;
+                min-height: 100vh;
+            }
+
+            /* Section Container - Add clear separation */
+            .menu-section-wrapper {
+                background: white;
+                border-radius: 12px;
+                padding: 25px;
+                margin-bottom: 25px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+                border-left: 4px solid #2a8b4e;
+                transition: all 0.3s ease;
+            }
+
+            .menu-section-wrapper:hover {
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+            }
+
+            /* Section Header - Make sections more distinct */
+            .section-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #e8f5e9;
+            }
+
+            .section-header-left {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section-icon {
+                width: 45px;
+                height: 45px;
+                background: linear-gradient(135deg, #2a8b4e 0%, #1a5630 100%);
                 border-radius: 10px;
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 1.3em;
+            }
+
+            .section-title {
+                font-size: 1.6em;
+                font-weight: 600;
+                color: #1a3c34;
+                margin: 0;
+            }
+
+            .section-subtitle {
+                font-size: 0.9em;
+                color: #718096;
+                margin-top: 5px;
+            }
+
+            .header-actions {
+                display: flex;
+                gap: 10px;
             }
 
             .menu-hero {
-                padding: 16px;
-                background: #ffffff;
-                border-radius: 10px;
-                margin-bottom: 16px;
-
+                padding: 0;
+                background: transparent;
+                border-radius: 0;
+                margin-bottom: 0;
             }
 
             .hero-content {
@@ -336,119 +425,297 @@
             }
 
             .hero-content h1 {
-                font-size: 1.5em;
+                font-size: 2em;
                 color: #1a3c34;
+                margin-bottom: 10px;
+                font-weight: 600;
             }
 
             .hero-content h1 span {
                 color: #2a8b4e;
+                display: block;
+                font-size: 0.8em;
+                margin-top: 5px;
             }
 
             .hero-content p {
-                font-size: 0.9em;
+                font-size: 1em;
                 color: #4a5568;
-                margin: 8px 0;
+                margin: 12px 0 20px;
+                line-height: 1.6;
             }
 
-            .hero-content .actions {
+            .edit-hero-btn,
+            .edit-title-btn,
+            .add-category-btn,
+            .edit-cta-btn {
+                background: linear-gradient(135deg, #2a8b4e 0%, #1a5630 100%);
+                color: #ffffff;
+                font-weight: 500;
+                font-size: 0.9em;
+                padding: 10px 18px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
                 display: flex;
-                justify-content: center;
-                margin-top: 8px;
+                align-items: center;
+                gap: 8px;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
             }
 
-            .edit-hero-btn {
+            .edit-hero-btn:hover,
+            .edit-title-btn:hover,
+            .add-category-btn:hover,
+            .edit-cta-btn:hover {
+                background: linear-gradient(135deg, #3da65f 0%, #2a8b4e 100%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(42, 139, 78, 0.4);
+            }
+
+            .edit-hero-btn:active,
+            .edit-title-btn:active,
+            .add-category-btn:active,
+            .edit-cta-btn:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
+            }
+
+            .preview-section {
+                margin-top: 0;
+            }
+
+            .category-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .category-card {
+                background: #f8faf9;
+                padding: 20px;
+                border-radius: 12px;
+                border: 1px solid #e2e8f0;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .category-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, #2a8b4e, #1a5630);
+                transform: scaleX(0);
+                transition: transform 0.3s ease;
+            }
+
+            .category-card:hover::before {
+                transform: scaleX(1);
+            }
+
+            .category-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+                border-color: #2a8b4e;
+            }
+
+            .category-header {
+                margin-bottom: 15px;
+                padding-bottom: 12px;
+                border-bottom: 2px solid #e2e8f0;
+            }
+
+            .category-header h3 {
+                font-size: 1.3em;
+                font-weight: 600;
+                color: #1a3c34;
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .category-header h3 i {
+                color: #2a8b4e;
+            }
+
+            .category-header .actions {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .category-card ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .category-card ul li {
+                background: white;
+                padding: 12px;
+                margin-bottom: 10px;
+                border-radius: 8px;
+                border: 1px solid #e2e8f0;
+                transition: all 0.2s ease;
+            }
+
+            .category-card ul li:hover {
+                border-color: #2a8b4e;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            }
+
+            .item-details {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                margin-bottom: 8px;
+            }
+
+            .item-details span {
+                font-weight: 600;
+                color: #1a3c34;
+                font-size: 1em;
+            }
+
+            .item-details small {
+                color: #718096;
+                font-size: 0.85em;
+            }
+
+            .item-actions {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-top: 8px;
+                border-top: 1px solid #e2e8f0;
+            }
+
+            .item-actions > div {
+                display: flex;
+                gap: 8px;
+            }
+
+            .add-category-btn,
+            .add-item-btn,
+            .edit-item-btn,
+            .edit-btn,
+            .edit-title-btn {
                 background: linear-gradient(135deg, #2a8b4e 0%, #1a5630 100%);
                 color: #ffffff;
                 font-weight: 500;
                 font-size: 0.85em;
-                padding: 6px 12px;
+                padding: 8px 14px;
                 border: none;
-                border-radius: 16px;
+                border-radius: 8px;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
-                gap: 5px;
-                transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+                gap: 6px;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
             }
 
-            .edit-hero-btn:hover {
-                background: linear-gradient(135deg, #3da65f 0%, #2a8b4e 100%);
-                transform: scale(1.01);
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .edit-hero-btn:active {
-                transform: scale(1);
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            }
-
-            .preview-section {
-                margin-top: 16px;
-            }
-
-            .preview-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 8px;
-            }
-
-            .preview-header h2 {
-                font-size: 1.4em;
+            .edit-title-btn,
+            .edit-cta-btn {
+                font-size: 0.85em;
+                padding: 8px 14px;
+                background: linear-gradient(135deg, #2a8b4e 0%, #1a5630 100%);
+                color: #ffffff;
                 font-weight: 500;
-                color: #2a8b4e;
-                position: relative;
-            }
-
-            .preview-header h2::after {
-                content: '';
-                position: absolute;
-                width: 40px;
-                height: 2px;
-                background: #2a8b4e;
-                bottom: -4px;
-                left: 0;
-                border-radius: 1px;
-            }
-
-            .preview-header .actions {
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
                 display: flex;
                 align-items: center;
-                gap: 8px;
+                gap: 6px;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
             }
 
-            .cta-section {
-                margin-top: 24px;
-                padding: 16px;
-                background: #ffffff;
-                border-radius: 10px;
+            .add-category-btn:hover,
+            .add-item-btn:hover,
+            .edit-item-btn:hover,
+            .edit-btn:hover,
+            .edit-title-btn:hover,
+            .edit-cta-btn:hover {
+                background: linear-gradient(135deg, #3da65f 0%, #2a8b4e 100%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(42, 139, 78, 0.4);
+            }
 
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+            .add-category-btn:active,
+            .add-item-btn:active,
+            .edit-item-btn:active,
+            .edit-btn:active,
+            .edit-title-btn:active,
+            .edit-cta-btn:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
+            }
+
+            .delete-category-btn,
+            .delete-item-btn,
+            .delete-btn {
+                background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+                color: #ffffff;
+                font-weight: 500;
+                font-size: 0.85em;
+                padding: 8px 14px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 5px rgba(229, 62, 62, 0.3);
+            }
+
+            .delete-category-btn:hover,
+            .delete-item-btn:hover,
+            .delete-btn:hover {
+                background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(229, 62, 62, 0.4);
+            }
+
+            .delete-category-btn:active,
+            .delete-item-btn:active,
+            .delete-btn:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 5px rgba(229, 62, 62, 0.3);
+            }
+
+            /* CTA Section */
+            .cta-content {
+                margin-top: 12px;
             }
 
             .cta-header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 12px;
+                margin-bottom: 15px;
             }
 
-            .cta-header h2 {
-                font-size: 1.4em;
-                font-weight: 500;
+            .cta-header h3 {
+                font-size: 1.1em;
+                font-weight: 600;
+                color: #1a3c34;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .cta-header h3 i {
                 color: #2a8b4e;
-                position: relative;
-            }
-
-            .cta-header h2::after {
-                content: '';
-                position: absolute;
-                width: 40px;
-                height: 2px;
-                background: #2a8b4e;
-                bottom: -4px;
-                left: 0;
-                border-radius: 1px;
             }
 
             .cta-header .actions {
@@ -472,188 +739,29 @@
 
             .cta-button {
                 display: inline-block;
-                padding: 8px 16px;
+                padding: 10px 20px;
                 background: linear-gradient(135deg, #2a8b4e 0%, #1a5630 100%);
                 color: #ffffff;
                 font-weight: 500;
                 font-size: 0.9em;
                 text-decoration: none;
-                border-radius: 16px;
-                transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+                border-radius: 8px;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
             }
 
             .cta-button:hover {
                 background: linear-gradient(135deg, #3da65f 0%, #2a8b4e 100%);
-                transform: scale(1.01);
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(42, 139, 78, 0.4);
             }
 
             .cta-button:active {
-                transform: scale(1);
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                transform: translateY(0);
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
             }
 
-            .add-category-btn,
-            .add-item-btn,
-            .edit-item-btn,
-            .edit-btn,
-            .edit-title-btn,
-            .edit-cta-btn {
-                background: linear-gradient(135deg, #2a8b4e 0%, #1a5630 100%);
-                color: #ffffff;
-                font-weight: 500;
-                font-size: 0.85em;
-                padding: 6px 12px;
-                border: none;
-                border-radius: 16px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                gap: 5px;
-                transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-            }
-
-            .edit-title-btn,
-            .edit-cta-btn {
-                font-size: 0.85em;
-                padding: 6px 12px;
-            }
-
-            .add-category-btn:hover,
-            .add-item-btn:hover,
-            .edit-item-btn:hover,
-            .edit-btn:hover,
-            .edit-title-btn:hover,
-            .edit-cta-btn:hover {
-                background: linear-gradient(135deg, #3da65f 0%, #2a8b4e 100%);
-                transform: scale(1.01);
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .add-category-btn:active,
-            .add-item-btn:active,
-            .edit-item-btn:active,
-            .edit-btn:active,
-            .edit-title-btn:active,
-            .edit-cta-btn:active {
-                transform: scale(1);
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            }
-
-            .delete-btn {
-                color: #d32f2f;
-                background: none;
-                padding: 6px 12px;
-                border: none;
-                border-radius: 16px;
-                cursor: pointer;
-                font-size: 0.85em;
-                display: flex;
-                align-items: center;
-                gap: 5px;
-                transition: background 0.2s ease, color 0.2s ease;
-            }
-
-            .delete-btn:hover {
-                color: #ffffff;
-                background: #b71c1c;
-            }
-
-            .category-grid {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 12px;
-            }
-
-            .category-card {
-                background: #ffffff;
-                padding: 12px;
-                border-radius: 10px;
-
-                margin-bottom: 12px;
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-            }
-
-            .category-card:hover {
-                transform: scale(1.01);
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .category-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 6px;
-            }
-
-            .category-header h3 {
-                font-size: 1.2em;
-                font-weight: 500;
-                color: #2a8b4e;
-                display: flex;
-                align-items: center;
-                gap: 5px;
-            }
-
-            .category-header h3 i {
-                font-size: 1em;
-                color: #2a8b4e;
-            }
-
-            .category-header .actions {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-
-            .category-card ul {
-                list-style: none;
-                padding: 0;
-                margin-top: 6px;
-            }
-
-            .category-card ul li {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 8px 0;
-                border-bottom: 1px solid #b8d7bc;
-                transition: background 0.2s ease;
-            }
-
-            .category-card ul li:hover {
-                background: rgba(74, 156, 92, 0.08);
-            }
-
-            .category-card ul li:last-child {
-                border-bottom: none;
-            }
-
-            .category-card ul li .item-details span {
-                font-size: 0.95em;
-                font-weight: 500;
-                color: #1a3c34;
-            }
-
-            .category-card ul li .item-details small {
-                display: block;
-                font-size: 0.8em;
-                color: #4a5568;
-            }
-
-            .category-card ul li .item-actions {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-
-            .category-card ul li .item-actions span {
-                font-size: 0.95em;
-                font-weight: 500;
-                color: #1a3c34;
-                margin-right: 10px;
-            }
-
+            /* Modal Overlays */
             .overlay {
                 display: none;
                 position: fixed;
@@ -661,11 +769,11 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(0, 0, 0, 0.4);
+                background: rgba(0, 0, 0, 0.5);
                 z-index: 1000;
                 justify-content: center;
                 align-items: center;
-                animation: fadeIn 0.2s ease;
+                animation: fadeIn 0.3s ease;
             }
 
             .overlay.active {
@@ -684,20 +792,20 @@
 
             .overlay-content {
                 background: #ffffff;
-                padding: 16px;
-                border-radius: 10px;
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                padding: 24px;
+                border-radius: 12px;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
                 width: 90%;
-                max-width: 450px;
+                max-width: 500px;
                 max-height: 80vh;
                 overflow-y: auto;
                 position: relative;
-                animation: slideIn 0.2s ease;
+                animation: slideIn 0.3s ease;
             }
 
             @keyframes slideIn {
                 from {
-                    transform: translateY(10px);
+                    transform: translateY(-20px);
                     opacity: 0;
                 }
 
@@ -709,44 +817,49 @@
 
             .overlay-content .close-btn {
                 position: absolute;
-                top: 10px;
-                right: 10px;
+                top: 12px;
+                right: 12px;
                 background: none;
                 border: none;
-                font-size: 1.2em;
-                color: #1a3c34;
+                font-size: 1.5em;
+                color: #718096;
                 cursor: pointer;
-                transition: color 0.2s ease, transform 0.2s ease;
+                transition: all 0.2s ease;
+                width: 32px;
+                height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 6px;
             }
 
             .overlay-content .close-btn:hover {
-                color: #2a8b4e;
-                transform: scale(1.1);
+                background: #f7fafc;
+                color: #2d3748;
+                transform: rotate(90deg);
+            }
+
+            .overlay-content h2 {
+                font-size: 1.3em;
+                font-weight: 600;
+                color: #1a3c34;
+                margin-bottom: 20px;
+                padding-right: 30px;
             }
 
             .overlay-content .form-section {
-                background: #f9faf9;
-                padding: 12px;
-                border-radius: 8px;
-
-            }
-
-            .overlay-content .form-section h2 {
-                font-size: 1.2em;
-                font-weight: 500;
-                color: #2a8b4e;
-                margin-bottom: 8px;
+                margin-bottom: 16px;
             }
 
             .overlay-content .form-section .form-group {
-                margin-bottom: 8px;
+                margin-bottom: 16px;
             }
 
             .overlay-content .form-section label {
-                font-size: 0.85em;
+                font-size: 0.9em;
                 font-weight: 500;
                 color: #1a3c34;
-                margin-bottom: 5px;
+                margin-bottom: 6px;
                 display: block;
             }
 
@@ -754,38 +867,39 @@
             .overlay-content .form-section select,
             .overlay-content .form-section textarea {
                 width: 100%;
-                padding: 8px;
-                border: 1px solid #b8d7bc;
-                border-radius: 6px;
+                padding: 10px 12px;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
                 font-size: 0.9em;
                 color: #1a3c34;
                 background: #ffffff;
-                transition: border-color 0.2s ease, box-shadow 0.2s ease;
+                transition: all 0.2s ease;
             }
 
             .overlay-content .form-section textarea {
                 resize: vertical;
-                min-height: 80px;
+                min-height: 100px;
             }
 
             .overlay-content .form-section select:disabled,
             .overlay-content .form-section input:disabled {
-                background: #f0f4f0;
+                background: #f7fafc;
                 cursor: not-allowed;
+                opacity: 0.6;
             }
 
             .overlay-content .form-section input:focus,
             .overlay-content .form-section select:focus,
             .overlay-content .form-section textarea:focus {
-                border-color: #3da65f;
-                box-shadow: 0 0 0 2px rgba(61, 166, 95, 0.15);
+                border-color: #2a8b4e;
+                box-shadow: 0 0 0 3px rgba(42, 139, 78, 0.1);
                 outline: none;
             }
 
             .overlay-content .form-section .icon-link {
                 display: inline-block;
-                margin-top: 4px;
-                font-size: 0.75em;
+                margin-top: 6px;
+                font-size: 0.8em;
                 color: #2a8b4e;
                 text-decoration: none;
                 transition: color 0.2s ease;
@@ -793,37 +907,40 @@
 
             .overlay-content .form-section .icon-link:hover {
                 color: #3da65f;
+                text-decoration: underline;
             }
 
             .overlay-content .form-section button {
                 width: 100%;
-                padding: 8px;
+                padding: 12px;
                 background: linear-gradient(135deg, #2a8b4e 0%, #1a5630 100%);
                 color: #ffffff;
                 font-weight: 500;
-                font-size: 0.85em;
+                font-size: 0.95em;
                 border: none;
-                border-radius: 16px;
+                border-radius: 8px;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 5px;
-                transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+                gap: 8px;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
+                margin-top: 8px;
             }
 
             .overlay-content .form-section button:hover {
                 background: linear-gradient(135deg, #3da65f 0%, #2a8b4e 100%);
-                transform: scale(1.01);
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(42, 139, 78, 0.4);
             }
 
             .overlay-content .form-section button:active {
-                transform: scale(1);
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                transform: translateY(0);
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
             }
 
-            /* Desktop (default: width >= 1024px) */
+            /* Responsive Design */
             @media (max-width: 1024px) {
                 .category-grid {
                     grid-template-columns: repeat(2, 1fr);
@@ -831,11 +948,10 @@
 
                 .main-content {
                     margin: 10px;
-                    padding: 12px;
+                    padding: 16px;
                 }
             }
 
-            /* Tablet (640px <= width < 1024px) */
             @media (max-width: 640px) {
                 .category-grid {
                     grid-template-columns: 1fr;
@@ -843,28 +959,29 @@
 
                 .main-content {
                     margin: 8px;
-                    padding: 10px;
-                }
-
-                .preview-header h2,
-                .cta-header h2 {
-                    font-size: 1.2em;
-                }
-
-                .cta-section {
                     padding: 12px;
+                }
+
+                .menu-section-wrapper {
+                    padding: 16px;
+                }
+
+                .section-header h2 {
+                    font-size: 1.3em;
                 }
             }
 
-            /* Mobile (width < 640px) */
             @media (max-width: 480px) {
                 .main-content {
                     margin: 4px;
                     padding: 8px;
                 }
 
-                .preview-header h2,
-                .cta-header h2 {
+                .menu-section-wrapper {
+                    padding: 12px;
+                }
+
+                .section-header h2 {
                     font-size: 1em;
                 }
 
