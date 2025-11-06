@@ -3,9 +3,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\Admin\AboutController as AdminAboutController;
 use App\Http\Controllers\Admin\MenuController as AdminMenuController;
 use App\Http\Controllers\Admin\StoryController as AdminStoryController;
+use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\DashboardController;
@@ -19,9 +21,7 @@ Route::get('/story', function () {
 
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 
-Route::get('/gallery', function () {
-    return view('gallery');
-})->name('gallery');
+Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
 
 Route::get('/order', function () {
     return view('order');
@@ -38,7 +38,16 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     Route::get('/menu', [AdminMenuController::class, 'index'])->name('admin.menu.index');
     Route::view('/story', 'admin.story.index')->name('admin.story.index');
-    Route::view('/gallery', 'admin.gallery.index')->name('admin.gallery.index');
+
+    // Gallery Routes
+    Route::get('/gallery', [AdminGalleryController::class, 'index'])->name('admin.gallery.index');
+    Route::post('/gallery', [AdminGalleryController::class, 'store'])->name('admin.gallery.store');
+    Route::get('/gallery/{gallery}/edit', [AdminGalleryController::class, 'edit'])->name('admin.gallery.edit');
+    Route::put('/gallery/{gallery}', [AdminGalleryController::class, 'update'])->name('admin.gallery.update');
+    Route::delete('/gallery/{gallery}', [AdminGalleryController::class, 'destroy'])->name('admin.gallery.destroy');
+    Route::post('/gallery/order', [AdminGalleryController::class, 'updateOrder'])->name('admin.gallery.updateOrder');
+    Route::put('/gallery/settings', [AdminGalleryController::class, 'updateSettings'])->name('admin.gallery.settings.update');
+
     Route::view('/about', 'admin.about.index')->name('admin.about.index');
     Route::post('/menu/categories', [AdminMenuController::class, 'storeCategory'])->name('admin.menu.categories.store');
     Route::put('/menu/categories/{category}', [AdminMenuController::class, 'updateCategory'])->name('admin.menu.categories.update');

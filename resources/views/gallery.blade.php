@@ -13,11 +13,10 @@
     @include('layouts.header')
     <section class="gallery-hero">
         <div class="hero-content">
-            <h1>Our Gallery</h1>
-            <h1><span>Stories in Every Frame</span></h1>
+            <h1>{{ $heroSettings->title ?? 'Our Gallery' }}</h1>
+            <h1><span>{{ $heroSettings->subtitle ?? 'Stories in Every Frame' }}</span></h1>
             <p>
-                Explore the visual journey of Bagan Chiya Cafe, capturing the essence of our tea heritage and community
-                through stunning photography.
+                {{ $heroSettings->description ?? 'Explore the visual journey of Bagan Chiya Cafe, capturing the essence of our tea heritage and community through stunning photography.' }}
             </p>
         </div>
     </section>
@@ -25,201 +24,51 @@
     <section class="photo-gallery">
         <div class="photo-gallery__container">
             <div class="photo-gallery__header">
-                <h1 class="photo-gallery__title">Tea Garden Gallery</h1>
-                <p class="photo-gallery__subtitle">Discover the beauty of our tea journey through captivating moments
-                    from our gardens, ceremonies, and community gatherings</p>
+                <h1 class="photo-gallery__title">{{ $headerSettings->title ?? 'Tea Garden Gallery' }}</h1>
+                <p class="photo-gallery__subtitle">{{ $headerSettings->description ?? 'Discover the beauty of our tea journey through captivating moments from our gardens, ceremonies, and community gatherings' }}</p>
                 <div class="photo-gallery__filters">
                     <button class="photo-gallery__filter-btn active" data-filter="all">All Photos</button>
-                    <button class="photo-gallery__filter-btn" data-filter="gardens">Tea Gardens</button>
-                    <button class="photo-gallery__filter-btn" data-filter="ceremony">Ceremonies</button>
-                    <button class="photo-gallery__filter-btn" data-filter="harvest">Harvest</button>
-                    <button class="photo-gallery__filter-btn" data-filter="community">Community</button>
+                    @foreach ($categories as $category)
+                        <button class="photo-gallery__filter-btn" data-filter="{{ $category }}">
+                            {{ ucfirst($category) }}
+                        </button>
+                    @endforeach
                 </div>
             </div>
 
             <div class="photo-gallery__grid" id="photo-gallery-grid">
-                <div class="photo-gallery__item" data-category="gardens" data-index="0">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038926/WhatsApp_Image_2025-07-31_at_6.28.53_PM_kywbzw.jpg"
-                        alt="Premium Tea Leaves">
-                    <div class="photo-gallery__overlay">
-                        <div class="photo-gallery__overlay-content">
-                            <h3>Premium Tea Leaves</h3>
-                            <p>Hand-picked from the pristine gardens of Eastern Nepal, showcasing the finest quality
-                                leaves that make our signature blends.</p>
-                            <div class="photo-gallery__overlay-tags">
-                                <span class="photo-gallery__tag">Premium</span>
-                                <span class="photo-gallery__tag">Nepal</span>
+                @foreach ($galleries as $index => $gallery)
+                    <div class="photo-gallery__item" data-category="{{ $gallery->category }}"
+                        data-index="{{ $index }}">
+                        <img src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}">
+                        <div class="photo-gallery__overlay">
+                            <div class="photo-gallery__overlay-content">
+                                <h3>{{ $gallery->title }}</h3>
+                                <p>{{ $gallery->description ?? 'A beautiful moment captured at Bagan Chiya Cafe.' }}</p>
+                                <div class="photo-gallery__overlay-tags">
+                                    <span class="photo-gallery__tag">{{ ucfirst($gallery->category) }}</span>
+                                    @if ($gallery->is_featured)
+                                        <span class="photo-gallery__tag">Featured</span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="photo-gallery__item" data-category="ceremony" data-index="1">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038927/WhatsApp_Image_2025-07-31_at_6.28.55_PM_2_x7xcer.jpg"
-                        alt="Artisanal Preparation">
-                    <div class="photo-gallery__overlay">
-                        <div class="photo-gallery__overlay-content">
-                            <h3>Artisanal Preparation</h3>
-                            <p>Traditional tea preparation methods passed down through generations, crafted with care
-                                and precision.</p>
-                            <div class="photo-gallery__overlay-tags">
-                                <span class="photo-gallery__tag">Traditional</span>
-                                <span class="photo-gallery__tag">Artisan</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-gallery__item" data-category="gardens" data-index="2">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038926/WhatsApp_Image_2025-07-31_at_6.28.54_PM_1_tiivhu.jpg"
-                        alt="Tea Gardens">
-                    <div class="photo-gallery__overlay">
-                        <div class="photo-gallery__overlay-content">
-                            <h3>Pristine Tea Gardens</h3>
-                            <p>Our lush tea gardens nestled in the Himalayan foothills, where every leaf tells a story
-                                of dedication and care.</p>
-                            <div class="photo-gallery__overlay-tags">
-                                <span class="photo-gallery__tag">Himalayan</span>
-                                <span class="photo-gallery__tag">Organic</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-gallery__item" data-category="ceremony" data-index="3">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038926/WhatsApp_Image_2025-07-31_at_6.28.54_PM_qsnpft.jpg"
-                        alt="Tea Ceremony">
-                    <div class="photo-gallery__overlay">
-                        <div class="photo-gallery__overlay-content">
-                            <h3>Cultural Ceremony</h3>
-                            <p>Sacred tea ceremonies that celebrate our heritage and the spiritual connection between
-                                nature and tradition.</p>
-                            <div class="photo-gallery__overlay-tags">
-                                <span class="photo-gallery__tag">Cultural</span>
-                                <span class="photo-gallery__tag">Sacred</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-gallery__item" data-category="community" data-index="4">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038925/WhatsApp_Image_2025-07-31_at_6.28.55_PM_h8akma.jpg"
-                        alt="Tea Tasting">
-                    <div class="photo-gallery__overlay">
-                        <div class="photo-gallery__overlay-content">
-                            <h3>Expert Tea Tasting</h3>
-                            <p>Our master tea tasters evaluate each batch to ensure the highest quality and most
-                                exquisite flavors.</p>
-                            <div class="photo-gallery__overlay-tags">
-                                <span class="photo-gallery__tag">Expert</span>
-                                <span class="photo-gallery__tag">Quality</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-gallery__item" data-category="harvest" data-index="5">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038926/WhatsApp_Image_2025-07-31_at_6.28.53_PM_kywbzw.jpg"
-                        alt="Harvest Season">
-                    <div class="photo-gallery__overlay">
-                        <div class="photo-gallery__overlay-content">
-                            <h3>Harvest Season</h3>
-                            <p>The annual harvest brings our community together in celebration of nature's bounty and
-                                hard work.</p>
-                            <div class="photo-gallery__overlay-tags">
-                                <span class="photo-gallery__tag">Harvest</span>
-                                <span class="photo-gallery__tag">Community</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-gallery__item" data-category="ceremony" data-index="6">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038927/WhatsApp_Image_2025-07-31_at_6.28.55_PM_2_x7xcer.jpg"
-                        alt="Tea Blending">
-                    <div class="photo-gallery__overlay">
-                        <div class="photo-gallery__overlay-content">
-                            <h3>Tea Blending</h3>
-                            <p>The art of creating perfect seasonal blends, combining different tea varieties for unique
-                                flavor profiles.</p>
-                            <div class="photo-gallery__overlay-tags">
-                                <span class="photo-gallery__tag">Blending</span>
-                                <span class="photo-gallery__tag">Seasonal</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-gallery__item" data-category="community" data-index="7">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038926/WhatsApp_Image_2025-07-31_at_6.28.54_PM_1_tiivhu.jpg"
-                        alt="Farmer Smiles">
-                    <div class="photo-gallery__overlay">
-                        <div class="photo-gallery__overlay-content">
-                            <h3>Farmer Smiles</h3>
-                            <p>The joy and pride of our tea farmers during harvest season, celebrating another
-                                successful year.</p>
-                            <div class="photo-gallery__overlay-tags">
-                                <span class="photo-gallery__tag">Joy</span>
-                                <span class="photo-gallery__tag">Pride</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-gallery__item" data-category="community" data-index="8">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038926/WhatsApp_Image_2025-07-31_at_6.28.54_PM_qsnpft.jpg"
-                        alt="Community Gathering">
-                    <div class="photo-gallery__overlay">
-                        <div class="photo-gallery__overlay-content">
-                            <h3>Community Gathering</h3>
-                            <p>Regular cafe events that bring tea lovers together to share stories and celebrate our
-                                passion for tea.</p>
-                            <div class="photo-gallery__overlay-tags">
-                                <span class="photo-gallery__tag">Gathering</span>
-                                <span class="photo-gallery__tag">Stories</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-gallery__item" data-category="ceremony" data-index="9">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038925/WhatsApp_Image_2025-07-31_at_6.28.55_PM_h8akma.jpg"
-                        alt="Tea Ritual">
-                    <div class="photo-gallery__overlay">
-                        <div class="photo-gallery__overlay-content">
-                            <h3>Tea Ritual</h3>
-                            <p>Ancient rituals that honor the tea plant and the wisdom of generations of tea masters.
-                            </p>
-                            <div class="photo-gallery__overlay-tags">
-                                <span class="photo-gallery__tag">Ritual</span>
-                                <span class="photo-gallery__tag">Ancient</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-gallery__item hidden" data-category="harvest" data-index="10">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038926/WhatsApp_Image_2025-07-31_at_6.28.53_PM_kywbzw.jpg"
-                        alt="Morning Harvest">
-                    <div class="photo-gallery__overlay">
-                        <div class="photo-gallery__overlay-content">
-                            <h3>Morning Harvest</h3>
-                            <p>Dawn harvesting when the dew still clings to leaves, capturing the most delicate flavors.
-                            </p>
-                            <div class="photo-gallery__overlay-tags">
-                                <span class="photo-gallery__tag">Dawn</span>
-                                <span class="photo-gallery__tag">Delicate</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-gallery__item hidden" data-category="community" data-index="11">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038927/WhatsApp_Image_2025-07-31_at_6.28.55_PM_2_x7xcer.jpg"
-                        alt="Tea Workshop">
-                    <div class="photo-gallery__overlay">
-                        <div class="photo-gallery__overlay-content">
-                            <h3>Tea Workshop</h3>
-                            <p>Educational sessions where we share our knowledge and passion for tea with enthusiasts
-                                and learners.</p>
-                            <div class="photo-gallery__overlay-tags">
-                                <span class="photo-gallery__tag">Education</span>
-                                <span class="photo-gallery__tag">Workshop</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
+            @if ($galleries->isEmpty())
+                <div style="text-align: center; padding: 60px 20px;">
+                    <i class="fas fa-images" style="font-size: 4em; color: #ccc; margin-bottom: 20px;"></i>
+                    <h3 style="color: #666; margin-bottom: 10px;">No images yet</h3>
+                    <p style="color: #999;">Check back soon for beautiful moments from our cafe!</p>
+                </div>
+            @endif
+
+            <button class="photo-gallery__load-more" id="load-more-btn" style="display: none;">
+                <span>Load More Photos</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
             <div class="photo-gallery__load-more">
                 <button class="photo-gallery__load-more-btn" onclick="loadMorePhotos()">
                     <i class="fas fa-plus"></i> Show more
@@ -285,8 +134,8 @@
                     <div class="form-group">
                         <label class="label">Tell us about this moment</label>
                         <textarea class="textarea"
-                            placeholder="Describe your experience, the tea you enjoyed, or what made this moment special..."
-                            name="description" required></textarea>
+                            placeholder="Describe your experience, the tea you enjoyed, or what made this moment special..." name="description"
+                            required></textarea>
                     </div>
                 </div>
                 <div class="upload-section">

@@ -1,4 +1,12 @@
 @extends('admin.layouts.base')
+
+@section('page-title', 'Our Story Management')
+
+@section('breadcrumb')
+    <i class="fas fa-chevron-right"></i>
+    <span>Our Story</span>
+@endsection
+
 @section('content')
     <div class="main-content">
         <!-- Story Hero Section -->
@@ -516,7 +524,7 @@
                 background: #ffffff;
                 border-radius: 10px;
                 margin-bottom: 16px;
-                border-left: 3px solid #2a8b4e;
+
             }
 
             .hero-content {
@@ -651,7 +659,7 @@
                 background: #ffffff;
                 padding: 12px;
                 border-radius: 10px;
-                border-left: 3px solid #2a8b4e;
+
                 margin-bottom: 16px;
             }
 
@@ -688,7 +696,7 @@
                 background: #ffffff;
                 padding: 12px;
                 border-radius: 10px;
-                border-left: 3px solid #2a8b4e;
+
                 margin-bottom: 12px;
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
@@ -744,7 +752,7 @@
                 background: #ffffff;
                 padding: 12px;
                 border-radius: 10px;
-                border-left: 3px solid #2a8b4e;
+
                 margin-bottom: 16px;
             }
 
@@ -780,7 +788,7 @@
                 background: #ffffff;
                 padding: 12px;
                 border-radius: 10px;
-                border-left: 3px solid #2a8b4e;
+
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
 
@@ -818,7 +826,7 @@
                 background: #ffffff;
                 padding: 12px;
                 border-radius: 10px;
-                border-left: 3px solid #2a8b4e;
+
                 margin-bottom: 16px;
             }
 
@@ -833,7 +841,7 @@
                 background: #ffffff;
                 padding: 12px;
                 border-radius: 10px;
-                border-left: 3px solid #2a8b4e;
+
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
 
@@ -884,7 +892,7 @@
                 background: #ffffff;
                 padding: 12px;
                 border-radius: 10px;
-                border-left: 3px solid #2a8b4e;
+
                 margin-bottom: 16px;
                 text-align: center;
             }
@@ -996,7 +1004,7 @@
                 background: #f9faf9;
                 padding: 12px;
                 border-radius: 8px;
-                border-left: 3px solid #2a8b4e;
+
             }
 
             .overlay-content .form-section h2 {

@@ -1,4 +1,12 @@
 @extends('admin.layouts.base')
+
+@section('page-title', 'About Us Management')
+
+@section('breadcrumb')
+    <i class="fas fa-chevron-right"></i>
+    <span>About Us</span>
+@endsection
+
 @section('content')
     <section class="about-hero">
         <div class="hero-content">
@@ -189,7 +197,7 @@
                 background: #ffffff;
                 border-radius: 10px;
                 margin-bottom: 16px;
-                border-left: 3px solid #2a8b4e;
+
             }
 
             .hero-content,
@@ -403,7 +411,7 @@
                 background: #f9faf9;
                 padding: 12px;
                 border-radius: 8px;
-                border-left: 3px solid #2a8b4e;
+
             }
 
             .overlay-content .form-section h2 {

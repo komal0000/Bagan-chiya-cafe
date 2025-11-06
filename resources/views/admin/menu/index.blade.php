@@ -1,4 +1,12 @@
 @extends('admin.layouts.base')
+
+@section('page-title', 'Menu Management')
+
+@section('breadcrumb')
+    <i class="fas fa-chevron-right"></i>
+    <span>Menu</span>
+@endsection
+
 @section('content')
     <div class="main-content">
         <!-- Menu Hero Section -->
@@ -26,7 +34,6 @@
                     </button>
                     <button class="add-category-btn" onclick="openCategoryOverlay()"><i class="fas fa-plus"></i> Add
                         Category</button>
-                    <button class="add-item-btn" onclick="openItemOverlay()"><i class="fas fa-plus"></i> Add Item</button>
                 </div>
             </div>
             <div class="category-grid">
@@ -48,11 +55,14 @@
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </form>
+                                <button class="add-item-btn" onclick="openItemOverlay()"><i class="fas fa-plus"></i> Add
+                                    Item</button>
+
                             </div>
                         </div>
                         <ul>
                             @foreach ($category->items as $item)
-                                <li data-name="{{ $item->name }}" data-price="{{ $item->price }}"
+                                <li style="padding: 6px" data-name="{{ $item->name }}" data-price="{{ $item->price }}"
                                     data-note="{{ $item->note }}" data-category="{{ $category->name }}">
                                     <div class="item-details">
                                         <span>{{ $item->name }}</span>
@@ -61,7 +71,7 @@
                                         @endif
                                     </div>
                                     <div class="item-actions">
-                                        <span>Rs. {{ number_format($item->price, 2) }}</span>
+                                        {{-- <span>Rs. {{ number_format($item->price, 2) }}</span> --}}
                                         <div>
                                             <button class="edit-item-btn"
                                                 onclick="openEditItemOverlay('{{ $item->menu_category_id }}', '{{ $item->name }}', '{{ $item->price }}', '{{ $item->note }}', '{{ $item->id }}')">
@@ -318,7 +328,7 @@
                 background: #ffffff;
                 border-radius: 10px;
                 margin-bottom: 16px;
-                border-left: 3px solid #2a8b4e;
+
             }
 
             .hero-content {
@@ -412,7 +422,7 @@
                 padding: 16px;
                 background: #ffffff;
                 border-radius: 10px;
-                border-left: 3px solid #2a8b4e;
+
                 box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
             }
 
@@ -559,7 +569,7 @@
                 background: #ffffff;
                 padding: 12px;
                 border-radius: 10px;
-                border-left: 3px solid #2a8b4e;
+
                 margin-bottom: 12px;
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
@@ -644,10 +654,6 @@
                 margin-right: 10px;
             }
 
-            .add-item-btn {
-                margin-bottom: 8px;
-            }
-
             .overlay {
                 display: none;
                 position: fixed;
@@ -722,7 +728,7 @@
                 background: #f9faf9;
                 padding: 12px;
                 border-radius: 8px;
-                border-left: 3px solid #2a8b4e;
+
             }
 
             .overlay-content .form-section h2 {

@@ -1,4 +1,12 @@
 @extends('admin.layouts.base')
+
+@section('page-title', 'Dashboard')
+
+@section('breadcrumb')
+    <i class="fas fa-chevron-right"></i>
+    <span>Dashboard</span>
+@endsection
+
 @section('content')
     <div class="main-content">
         <!-- Hero Section -->
@@ -23,7 +31,7 @@
                     </a>
                 </div>
                 <div class="stats">
-                    @foreach($stats as $stat)
+                    @foreach ($stats as $stat)
                         <div class="stat">
                             <i class="fas {{ $stat->stat_icon }} stat-icon"></i>
                             <div class="stat-number">{{ $stat->stat_number }}</div>
@@ -32,7 +40,8 @@
                     @endforeach
                 </div>
                 <div class="actions">
-                    <button class="edit-hero-btn" onclick="openEditHeroOverlay('{{ $badgeText }}', '{{ $heroTitle }}', '{{ $heroDescription }}', '{{ $primaryCtaText }}', '{{ $primaryCtaLink }}', '{{ $secondaryCtaText }}', '{{ $secondaryCtaLink }}', '{{ json_encode($stats) }}')">
+                    <button class="edit-hero-btn"
+                        onclick="openEditHeroOverlay('{{ $badgeText }}', '{{ $heroTitle }}', '{{ $heroDescription }}', '{{ $primaryCtaText }}', '{{ $primaryCtaLink }}', '{{ $secondaryCtaText }}', '{{ $secondaryCtaLink }}', '{{ json_encode($stats) }}')">
                         <i class="fas fa-edit"></i> Edit Hero
                     </button>
                 </div>
@@ -47,13 +56,25 @@
                     @php
                         // Fallback data if $whyUsCards is not defined
                         $defaultWhyUsCards = [
-                            ['icon' => 'fa-leaf', 'title' => 'Organic Ingredients', 'description' => 'We use only the finest organic teas and herbs sourced locally.'],
-                            ['icon' => 'fa-smile', 'title' => 'Friendly Service', 'description' => 'Our staff ensures a warm and welcoming experience every time.'],
-                            ['icon' => 'fa-heart', 'title' => 'Authentic Taste', 'description' => 'Experience the true essence of Nepali tea culture.'],
+                            [
+                                'icon' => 'fa-leaf',
+                                'title' => 'Organic Ingredients',
+                                'description' => 'We use only the finest organic teas and herbs sourced locally.',
+                            ],
+                            [
+                                'icon' => 'fa-smile',
+                                'title' => 'Friendly Service',
+                                'description' => 'Our staff ensures a warm and welcoming experience every time.',
+                            ],
+                            [
+                                'icon' => 'fa-heart',
+                                'title' => 'Authentic Taste',
+                                'description' => 'Experience the true essence of Nepali tea culture.',
+                            ],
                         ];
                         $whyUsCards = isset($whyUsCards) ? $whyUsCards : $defaultWhyUsCards;
                     @endphp
-                    @foreach($whyUsCards as $index => $card)
+                    @foreach ($whyUsCards as $index => $card)
                         <div class="why-us-card">
                             <i class="fas {{ $card['icon'] }}"></i>
                             <h3>{{ $card['title'] }}</h3>
@@ -81,19 +102,32 @@
                     @php
                         // Fallback data if $testimonials is not defined
                         $defaultTestimonials = [
-                            ['text' => 'Great place to hang out!! Matka tea and banana chips were so delicious!', 'rating' => 5, 'author' => 'Kalpana Panday'],
-                            ['text' => 'Great place for tea lovers!! Especially, Bagan special tea!', 'rating' => 4.5, 'author' => 'Jibit Khanal'],
+                            [
+                                'text' => 'Great place to hang out!! Matka tea and banana chips were so delicious!',
+                                'rating' => 5,
+                                'author' => 'Kalpana Panday',
+                            ],
+                            [
+                                'text' => 'Great place for tea lovers!! Especially, Bagan special tea!',
+                                'rating' => 4.5,
+                                'author' => 'Jibit Khanal',
+                            ],
                             ['text' => 'Best and affordable Cafe', 'rating' => 5, 'author' => 'Sudin Bikram Thapa'],
-                            ['text' => "Atmosphere was amazing!! Will recommend!\nFood: 5\nService: 5\nAtmosphere: 5", 'rating' => 4.5, 'author' => 'Kishan Bist'],
+                            [
+                                'text' =>
+                                    "Atmosphere was amazing!! Will recommend!\nFood: 5\nService: 5\nAtmosphere: 5",
+                                'rating' => 4.5,
+                                'author' => 'Kishan Bist',
+                            ],
                         ];
                         $testimonials = isset($testimonials) ? $testimonials : $defaultTestimonials;
                     @endphp
-                    @foreach($testimonials as $index => $testimonial)
+                    @foreach ($testimonials as $index => $testimonial)
                         <div class="testimonial-card">
                             <p class="testimonial-text">{!! nl2br(e($testimonial['text'])) !!}</p>
                             <div class="rating">
-                                @for($i = 1; $i <= 5; $i++)
-                                    @if($i <= floor($testimonial['rating']))
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= floor($testimonial['rating']))
                                         <i class="fas fa-star"></i>
                                     @elseif($i == ceil($testimonial['rating']) && $testimonial['rating'] - floor($testimonial['rating']) >= 0.5)
                                         <i class="fas fa-star-half-alt"></i>
@@ -107,7 +141,8 @@
                     @endforeach
                 </div>
                 <div class="actions">
-                    <button class="edit-testimonials-btn" onclick="openEditTestimonialsOverlay('{{ json_encode($testimonials) }}', '{{ $testimonialsTitle }}')">
+                    <button class="edit-testimonials-btn"
+                        onclick="openEditTestimonialsOverlay('{{ json_encode($testimonials) }}', '{{ $testimonialsTitle }}')">
                         <i class="fas fa-edit"></i> Edit Testimonials
                     </button>
                 </div>
@@ -126,30 +161,32 @@
                     </select>
                 </div>
                 <div class="special-offer-cards" id="specialOfferCards">
-                    @foreach($specialOfferCards as $card)
+                    @foreach ($specialOfferCards as $card)
                         <div class="special-offer-card" data-title="{{ $card->title }}">
                             <h3>{{ $card->title }}</h3>
                             <p>{{ $card->description }}</p>
                             <p class="offer-price">
                                 Price:
-                                @if($card->original_price)
+                                @if ($card->original_price)
                                     <s>Rs {{ $card->original_price }}</s>
                                     <span class="discount-price">Rs {{ $card->price }}</span>
-                                    @if($card->discount_percentage)
+                                    @if ($card->discount_percentage)
                                         ({{ $card->discount_percentage }}% OFF)
                                     @endif
                                 @else
                                     Rs {{ $card->price }}
                                 @endif
                             </p>
-                            @if($card->discount_code)
-                                <p class="discount-note">Limited time offer! Use code <strong>{{ $card->discount_code }}</strong> at checkout.</p>
+                            @if ($card->discount_code)
+                                <p class="discount-note">Limited time offer! Use code
+                                    <strong>{{ $card->discount_code }}</strong> at checkout.</p>
                             @endif
                         </div>
                     @endforeach
                 </div>
                 <div class="actions">
-                    <button class="edit-special-offer-btn" onclick="openEditSpecialOfferOverlay('{{ $specialOfferCards->toJson() }}', '{{ $specialOfferTitle }}')">
+                    <button class="edit-special-offer-btn"
+                        onclick="openEditSpecialOfferOverlay('{{ $specialOfferCards->toJson() }}', '{{ $specialOfferTitle }}')">
                         <i class="fas fa-edit"></i> Edit Special Offer
                     </button>
                 </div>
@@ -167,19 +204,21 @@
                         <option value="desc">Descending</option>
                     </select>
                 </div>
-      <div class="sections-container" id="sectionsContainer">
-    @foreach($additionalSections as $index => $section)
-        <div class="section-card" data-title="{{ $section['title'] }}">
-            <h2 class="section-title">Section {{ $index + 1 }}: {{ $section['title'] }}</h2>
-            <p>{{ $section['description'] }}</p>
-            <a href="{{ $section['link_url'] }}" class="section-link" {{ $section['target'] ? 'target=' . $section['target'] : '' }}>
-                {{ $section['link_text'] }} <i class="fas {{ $section['icon'] }}"></i>
-            </a>
-        </div>
-    @endforeach
-</div>
+                <div class="sections-container" id="sectionsContainer">
+                    @foreach ($additionalSections as $index => $section)
+                        <div class="section-card" data-title="{{ $section['title'] }}">
+                            <h2 class="section-title">Section {{ $index + 1 }}: {{ $section['title'] }}</h2>
+                            <p>{{ $section['description'] }}</p>
+                            <a href="{{ $section['link_url'] }}" class="section-link"
+                                {{ $section['target'] ? 'target=' . $section['target'] : '' }}>
+                                {{ $section['link_text'] }} <i class="fas {{ $section['icon'] }}"></i>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
                 <div class="actions">
-                    <button class="edit-additional-sections-btn" onclick="openEditAdditionalSectionsOverlay('{{ json_encode($additionalSections) }}')">
+                    <button class="edit-additional-sections-btn"
+                        onclick="openEditAdditionalSectionsOverlay('{{ json_encode($additionalSections) }}')">
                         <i class="fas fa-edit"></i> Edit Additional Sections
                     </button>
                 </div>
@@ -207,14 +246,16 @@
                             <h3>Content</h3>
                             <div class="form-group">
                                 <label>Heading</label>
-                                <input id="editBadgeText" name="badge_text" type="text" value="{{ old('badge_text', $badgeText) }}" required />
+                                <input id="editBadgeText" name="badge_text" type="text"
+                                    value="{{ old('badge_text', $badgeText) }}" required />
                                 @error('badge_text')
                                     <div class="error-message">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>Welcome</label>
-                                <input id="editWelcome" name="welcome" type="text" value="{{ old('welcome', $heroTitle) }}" required />
+                                <input id="editWelcome" name="welcome" type="text"
+                                    value="{{ old('welcome', $heroTitle) }}" required />
                                 @error('welcome')
                                     <div class="error-message">{{ $message }}</div>
                                 @enderror
@@ -228,28 +269,32 @@
                             </div>
                             <div class="form-group">
                                 <label>CTA 1 Text</label>
-                                <input id="editPrimaryCtaText" name="primary_cta_text" type="text" value="{{ old('primary_cta_text', $primaryCtaText) }}" required />
+                                <input id="editPrimaryCtaText" name="primary_cta_text" type="text"
+                                    value="{{ old('primary_cta_text', $primaryCtaText) }}" required />
                                 @error('primary_cta_text')
                                     <div class="error-message">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>CTA 1 Link</label>
-                                <input id="editPrimaryCtaLink" name="primary_cta_link" type="url" value="{{ old('primary_cta_link', $primaryCtaLink) }}" required />
+                                <input id="editPrimaryCtaLink" name="primary_cta_link" type="url"
+                                    value="{{ old('primary_cta_link', $primaryCtaLink) }}" required />
                                 @error('primary_cta_link')
                                     <div class="error-message">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>CTA 2 Text</label>
-                                <input id="editSecondaryCtaText" name="secondary_cta_text" type="text" value="{{ old('secondary_cta_text', $secondaryCtaText) }}" required />
+                                <input id="editSecondaryCtaText" name="secondary_cta_text" type="text"
+                                    value="{{ old('secondary_cta_text', $secondaryCtaText) }}" required />
                                 @error('secondary_cta_text')
                                     <div class="error-message">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>CTA 2 Link</label>
-                                <input id="editSecondaryCtaLink" name="secondary_cta_link" type="url" value="{{ old('secondary_cta_link', $secondaryCtaLink) }}" required />
+                                <input id="editSecondaryCtaLink" name="secondary_cta_link" type="url"
+                                    value="{{ old('secondary_cta_link', $secondaryCtaLink) }}" required />
                                 @error('secondary_cta_link')
                                     <div class="error-message">{{ $message }}</div>
                                 @enderror
@@ -258,27 +303,37 @@
                         <div class="form-group-section">
                             <h3>Stats</h3>
                             <div id="statsContainer">
-                                @for($i = 0; $i < 3; $i++)
+                                @for ($i = 0; $i < 3; $i++)
                                     <div class="stat-group" data-index="{{ $i }}">
                                         <h4>Stat {{ $i + 1 }}</h4>
                                         <div class="form-group">
                                             <label>Icon (Font Awesome Class)</label>
-                                            <input name="stats[{{ $i }}][icon]" type="text" class="stat-icon" value="{{ old('stats.' . $i . '.icon', $stats[$i]->stat_icon ?? '') }}" required />
-                                            <a href="https://fontawesome.com/search?o=r&m=free" target="_blank" class="icon-link">View Font Awesome Icons</a>
+                                            <input name="stats[{{ $i }}][icon]" type="text"
+                                                class="stat-icon"
+                                                value="{{ old('stats.' . $i . '.icon', $stats[$i]->stat_icon ?? '') }}"
+                                                required />
+                                            <a href="https://fontawesome.com/search?o=r&m=free" target="_blank"
+                                                class="icon-link">View Font Awesome Icons</a>
                                             @error('stats.' . $i . '.icon')
                                                 <div class="error-message">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="form-group">
                                             <label>Number</label>
-                                            <input name="stats[{{ $i }}][number]" type="text" class="stat-number" value="{{ old('stats.' . $i . '.number', $stats[$i]->stat_number ?? '') }}" required />
+                                            <input name="stats[{{ $i }}][number]" type="text"
+                                                class="stat-number"
+                                                value="{{ old('stats.' . $i . '.number', $stats[$i]->stat_number ?? '') }}"
+                                                required />
                                             @error('stats.' . $i . '.number')
                                                 <div class="error-message">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="form-group">
                                             <label>Info</label>
-                                            <input name="stats[{{ $i }}][info]" type="text" class="stat-info" value="{{ old('stats.' . $i . '.info', $stats[$i]->stat_label ?? '') }}" required />
+                                            <input name="stats[{{ $i }}][info]" type="text"
+                                                class="stat-info"
+                                                value="{{ old('stats.' . $i . '.info', $stats[$i]->stat_label ?? '') }}"
+                                                required />
                                             @error('stats.' . $i . '.info')
                                                 <div class="error-message">{{ $message }}</div>
                                             @enderror
@@ -313,20 +368,26 @@
                         <div class="form-group-section">
                             <h3>Cards</h3>
                             <div id="whyUsCardsContainer">
-                                @foreach($whyUsCards as $index => $card)
+                                @foreach ($whyUsCards as $index => $card)
                                     <div class="card-group" data-index="{{ $index }}">
                                         <h4>Card {{ $index + 1 }}</h4>
                                         <div class="form-group">
                                             <label>Icon (Font Awesome Class)</label>
-                                            <input name="cards[{{ $index }}][icon]" type="text" class="card-icon" value="{{ old('cards.' . $index . '.icon', $card['icon']) }}" required />
-                                            <a href="https://fontawesome.com/search?o=r&m=free" target="_blank" class="icon-link">View Font Awesome Icons</a>
+                                            <input name="cards[{{ $index }}][icon]" type="text"
+                                                class="card-icon"
+                                                value="{{ old('cards.' . $index . '.icon', $card['icon']) }}" required />
+                                            <a href="https://fontawesome.com/search?o=r&m=free" target="_blank"
+                                                class="icon-link">View Font Awesome Icons</a>
                                             @error('cards.' . $index . '.icon')
                                                 <div class="error-message">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="form-group">
                                             <label>Title</label>
-                                            <input name="cards[{{ $index }}][title]" type="text" class="card-title" value="{{ old('cards.' . $index . '.title', $card['title']) }}" required />
+                                            <input name="cards[{{ $index }}][title]" type="text"
+                                                class="card-title"
+                                                value="{{ old('cards.' . $index . '.title', $card['title']) }}"
+                                                required />
                                             @error('cards.' . $index . '.title')
                                                 <div class="error-message">{{ $message }}</div>
                                             @enderror
@@ -369,7 +430,8 @@
                             <h3>Section Content</h3>
                             <div class="form-group">
                                 <label>Section Title</label>
-                                <input id="editTestimonialsTitle" name="testimonials_title" type="text" value="{{ old('testimonials_title', $testimonialsTitle) }}" required />
+                                <input id="editTestimonialsTitle" name="testimonials_title" type="text"
+                                    value="{{ old('testimonials_title', $testimonialsTitle) }}" required />
                                 @error('testimonials_title')
                                     <div class="error-message">{{ $message }}</div>
                                 @enderror
@@ -386,9 +448,11 @@
                             <div id="testimonialsContainer">
                                 <!-- Dynamically populated based on selected customer -->
                             </div>
-                            <button type="button" id="addTestimonialBtn" onclick="addTestimonialField()"><i class="fas fa-plus"></i> Add New Testimonial</button>
+                            <button type="button" id="addTestimonialBtn" onclick="addTestimonialField()"><i
+                                    class="fas fa-plus"></i> Add New Testimonial</button>
                         </div>
-                        <button type="submit" id="saveTestimonialsBtn"><i class="fas fa-save"></i> Save Testimonials</button>
+                        <button type="submit" id="saveTestimonialsBtn"><i class="fas fa-save"></i> Save
+                            Testimonials</button>
                     </form>
                 </div>
             </div>
@@ -415,7 +479,8 @@
                             <h3>Section Content</h3>
                             <div class="form-group">
                                 <label>Section Title</label>
-                                <input id="editSpecialOfferTitle" name="special_offer_title" type="text" value="{{ old('special_offer_title', $specialOfferTitle) }}" required />
+                                <input id="editSpecialOfferTitle" name="special_offer_title" type="text"
+                                    value="{{ old('special_offer_title', $specialOfferTitle) }}" required />
                                 @error('special_offer_title')
                                     <div class="error-message">{{ $message }}</div>
                                 @enderror
@@ -432,9 +497,11 @@
                             <div id="specialOfferCardsContainer">
                                 <!-- Dynamically populated based on selected item -->
                             </div>
-                            <button type="button" id="addSpecialOfferCardBtn" onclick="addSpecialOfferCardField()"><i class="fas fa-plus"></i> Add New Special Offer Item</button>
+                            <button type="button" id="addSpecialOfferCardBtn" onclick="addSpecialOfferCardField()"><i
+                                    class="fas fa-plus"></i> Add New Special Offer Item</button>
                         </div>
-                        <button type="submit" id="saveSpecialOfferBtn"><i class="fas fa-save"></i> Save Special Offer</button>
+                        <button type="submit" id="saveSpecialOfferBtn"><i class="fas fa-save"></i> Save Special
+                            Offer</button>
                     </form>
                 </div>
             </div>
@@ -443,10 +510,12 @@
         <!-- Overlay for Edit Additional Sections -->
         <div class="overlay" id="editAdditionalSectionsOverlay">
             <div class="overlay-content">
-                <button class="close-btn" onclick="closeEditAdditionalSectionsOverlay()"><i class="fas fa-times"></i></button>
+                <button class="close-btn" onclick="closeEditAdditionalSectionsOverlay()"><i
+                        class="fas fa-times"></i></button>
                 <div class="form-section">
                     <h2>Edit Additional Sections</h2>
-                    <form id="editAdditionalSectionsForm" method="POST" action="{{ route('admin.additional-sections.update') }}">
+                    <form id="editAdditionalSectionsForm" method="POST"
+                        action="{{ route('admin.additional-sections.update') }}">
                         @csrf
                         @if ($errors->any())
                             <div class="error-message">
@@ -468,9 +537,11 @@
                             <div id="additionalSectionsContainer">
                                 <!-- Dynamically populated based on selected section -->
                             </div>
-                            <button type="button" id="addAdditionalSectionBtn" onclick="addAdditionalSectionField()"><i class="fas fa-plus"></i> Add New Section</button>
+                            <button type="button" id="addAdditionalSectionBtn" onclick="addAdditionalSectionField()"><i
+                                    class="fas fa-plus"></i> Add New Section</button>
                         </div>
-                        <button type="submit" id="saveAdditionalSectionsBtn"><i class="fas fa-save"></i> Save Additional Sections</button>
+                        <button type="submit" id="saveAdditionalSectionsBtn"><i class="fas fa-save"></i> Save Additional
+                            Sections</button>
                     </form>
                 </div>
             </div>
@@ -479,7 +550,8 @@
 
     @push('styles')
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&family=Great+Vibes&display=swap"
+            rel="stylesheet">
         <style>
             /* General Styles */
             .main-content {
@@ -496,7 +568,6 @@
                 background: #ffffff;
                 border-radius: 10px;
                 margin-bottom: 16px;
-                border-left: 3px solid #2a8b4e;
                 text-align: center;
             }
 
@@ -638,7 +709,6 @@
                 background: #ffffff;
                 border-radius: 10px;
                 margin-bottom: 16px;
-                border-left: 3px solid #2a8b4e;
                 text-align: center;
             }
 
@@ -672,8 +742,13 @@
             }
 
             @keyframes pulse {
-                from { opacity: 1; }
-                to { opacity: 0.7; }
+                from {
+                    opacity: 1;
+                }
+
+                to {
+                    opacity: 0.7;
+                }
             }
 
             .why-us-cards {
@@ -725,7 +800,6 @@
                 background: linear-gradient(135deg, #f0f9f0 0%, #e6f7e6 100%);
                 border-radius: 10px;
                 margin-bottom: 16px;
-                border-left: 3px solid #2a8b4e;
             }
 
             .testimonial-cards {
@@ -784,7 +858,6 @@
                 background: linear-gradient(135deg, #f0f9f0 0%, #e6f7e6 100%);
                 border-radius: 10px;
                 margin-bottom: 16px;
-                border-left: 3px solid #2a8b4e;
             }
 
             .sort-controls {
@@ -913,7 +986,6 @@
                 background: #ffffff;
                 border-radius: 10px;
                 margin-bottom: 16px;
-                border-left: 3px solid #2a8b4e;
                 text-align: center;
             }
 
@@ -990,7 +1062,11 @@
                 margin-top: 12px;
             }
 
-            .edit-hero-btn, .edit-why-us-btn, .edit-testimonials-btn, .edit-special-offer-btn, .edit-additional-sections-btn {
+            .edit-hero-btn,
+            .edit-why-us-btn,
+            .edit-testimonials-btn,
+            .edit-special-offer-btn,
+            .edit-additional-sections-btn {
                 background: linear-gradient(135deg, #2a8b4e 0%, #1a5630 100%);
                 color: #ffffff;
                 font-weight: 500;
@@ -1005,7 +1081,11 @@
                 transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
             }
 
-            .edit-hero-btn:hover, .edit-why-us-btn:hover, .edit-testimonials-btn:hover, .edit-special-offer-btn:hover, .edit-additional-sections-btn:hover {
+            .edit-hero-btn:hover,
+            .edit-why-us-btn:hover,
+            .edit-testimonials-btn:hover,
+            .edit-special-offer-btn:hover,
+            .edit-additional-sections-btn:hover {
                 background: linear-gradient(135deg, #3da65f 0%, #2a8b4e 100%);
                 transform: scale(1.01);
                 box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
@@ -1031,8 +1111,13 @@
             }
 
             @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
+                from {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
             }
 
             .overlay-content {
@@ -1049,8 +1134,15 @@
             }
 
             @keyframes slideIn {
-                from { transform: translateY(10px); opacity: 0; }
-                to { transform: translateY(0); opacity: 1; }
+                from {
+                    transform: translateY(10px);
+                    opacity: 0;
+                }
+
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
             }
 
             .overlay-content .close-btn {
@@ -1074,7 +1166,6 @@
                 background: #f9faf9;
                 padding: 12px;
                 border-radius: 8px;
-                border-left: 3px solid #2a8b4e;
             }
 
             .form-section h2 {
@@ -1166,27 +1257,43 @@
                 box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
             }
 
-            .remove-testimonial-btn, .remove-special-offer-btn, .remove-section-btn {
+            .remove-testimonial-btn,
+            .remove-special-offer-btn,
+            .remove-section-btn {
                 background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
             }
 
-            .remove-testimonial-btn:hover:not(:disabled), .remove-special-offer-btn:hover:not(:disabled), .remove-section-btn:hover:not(:disabled) {
+            .remove-testimonial-btn:hover:not(:disabled),
+            .remove-special-offer-btn:hover:not(:disabled),
+            .remove-section-btn:hover:not(:disabled) {
                 background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             }
 
-            .stat-group, .card-group, .testimonial-group, .special-offer-group, .section-group {
+            .stat-group,
+            .card-group,
+            .testimonial-group,
+            .special-offer-group,
+            .section-group {
                 border-top: 1px solid #e6f0e9;
                 padding-top: 12px;
                 margin-top: 12px;
             }
 
-            .stat-group:first-child, .card-group:first-child, .testimonial-group:first-child, .special-offer-group:first-child, .section-group:first-child {
+            .stat-group:first-child,
+            .card-group:first-child,
+            .testimonial-group:first-child,
+            .special-offer-group:first-child,
+            .section-group:first-child {
                 border-top: none;
                 padding-top: 0;
                 margin-top: 0;
             }
 
-            .stat-group h4, .card-group h4, .testimonial-group h4, .special-offer-group h4, .section-group h4 {
+            .stat-group h4,
+            .card-group h4,
+            .testimonial-group h4,
+            .special-offer-group h4,
+            .section-group h4 {
                 font-size: 0.95em;
                 font-weight: 500;
                 color: #2a8b4e;
@@ -1219,7 +1326,11 @@
                     padding: 12px;
                 }
 
-                .stats, .why-us-cards, .testimonial-cards, .special-offer-cards, .sections-container {
+                .stats,
+                .why-us-cards,
+                .testimonial-cards,
+                .special-offer-cards,
+                .sections-container {
                     gap: 16px;
                 }
             }
@@ -1230,7 +1341,8 @@
                     padding: 10px;
                 }
 
-                .welcome-message, .section-title {
+                .welcome-message,
+                .section-title {
                     font-size: 1.4em;
                 }
 
@@ -1238,12 +1350,19 @@
                     font-size: 0.9em;
                 }
 
-                .stats, .why-us-cards, .testimonial-cards, .special-offer-cards, .sections-container {
+                .stats,
+                .why-us-cards,
+                .testimonial-cards,
+                .special-offer-cards,
+                .sections-container {
                     flex-direction: column;
                     gap: 12px;
                 }
 
-                .why-us-card, .testimonial-card, .special-offer-card, .section-card {
+                .why-us-card,
+                .testimonial-card,
+                .special-offer-card,
+                .section-card {
                     max-width: 100%;
                 }
 
@@ -1268,7 +1387,8 @@
                     padding: 8px;
                 }
 
-                .welcome-message, .section-title {
+                .welcome-message,
+                .section-title {
                     font-size: 1.2em;
                 }
 
@@ -1276,12 +1396,17 @@
                     font-size: 0.85em;
                 }
 
-                .btn, .section-link {
+                .btn,
+                .section-link {
                     padding: 5px 10px;
                     font-size: 0.8em;
                 }
 
-                .edit-hero-btn, .edit-why-us-btn, .edit-testimonials-btn, .edit-special-offer-btn, .edit-additional-sections-btn {
+                .edit-hero-btn,
+                .edit-why-us-btn,
+                .edit-testimonials-btn,
+                .edit-special-offer-btn,
+                .edit-additional-sections-btn {
                     padding: 5px 10px;
                     font-size: 0.8em;
                 }
@@ -1298,7 +1423,10 @@
                     font-size: 0.85em;
                 }
 
-                .why-us-card, .testimonial-card, .special-offer-card, .section-card {
+                .why-us-card,
+                .testimonial-card,
+                .special-offer-card,
+                .section-card {
                     padding: 12px;
                 }
 
@@ -1306,11 +1434,16 @@
                     font-size: 1.8em;
                 }
 
-                .why-us-card h3, .special-offer-card h3, .section-card h2 {
+                .why-us-card h3,
+                .special-offer-card h3,
+                .section-card h2 {
                     font-size: 1.1em;
                 }
 
-                .why-us-card p, .testimonial-text, .special-offer-card p, .section-card p {
+                .why-us-card p,
+                .testimonial-text,
+                .special-offer-card p,
+                .section-card p {
                     font-size: 0.85em;
                 }
             }
@@ -1323,7 +1456,8 @@
             let allSpecialOfferCards = [];
             let allAdditionalSections = [];
 
-            function openEditHeroOverlay(badgeText, welcome, description, primaryCtaText, primaryCtaLink, secondaryCtaText, secondaryCtaLink, statsJson) {
+            function openEditHeroOverlay(badgeText, welcome, description, primaryCtaText, primaryCtaLink, secondaryCtaText,
+                secondaryCtaLink, statsJson) {
                 try {
                     closeAllOverlays();
                     document.getElementById('editBadgeText').value = badgeText || '';
@@ -1452,7 +1586,12 @@
                 }
             }
 
-            function createTestimonialGroup(index, testimonial = { text: '', rating: '', author: '', id: '' }) {
+            function createTestimonialGroup(index, testimonial = {
+                text: '',
+                rating: '',
+                author: '',
+                id: ''
+            }) {
                 const group = document.createElement('div');
                 group.className = 'testimonial-group';
                 group.dataset.index = index;
@@ -1478,7 +1617,12 @@
 
             function addTestimonialField() {
                 try {
-                    allTestimonials.push({ text: '', rating: '', author: '', id: '' });
+                    allTestimonials.push({
+                        text: '',
+                        rating: '',
+                        author: '',
+                        id: ''
+                    });
                     populateTestimonialDropdown();
                     document.getElementById('sortTestimonials').value = allTestimonials.length - 1;
                     displayTestimonial();
@@ -1563,7 +1707,8 @@
                     allSpecialOfferCards[idx].price = group.querySelector('.offer-price').value;
                     allSpecialOfferCards[idx].original_price = group.querySelector('.offer-original-price').value;
                     allSpecialOfferCards[idx].discount_code = group.querySelector('.offer-discount-code').value;
-                    allSpecialOfferCards[idx].discount_percentage = group.querySelector('.offer-discount-percentage').value;
+                    allSpecialOfferCards[idx].discount_percentage = group.querySelector('.offer-discount-percentage')
+                        .value;
                 });
             }
 
@@ -1583,7 +1728,15 @@
                 specialOfferCardsContainer.appendChild(createSpecialOfferCardGroup(selectedIndex, card));
             }
 
-            function createSpecialOfferCardGroup(index, card = { id: '', title: '', description: '', price: '', original_price: '', discount_code: '', discount_percentage: '' }) {
+            function createSpecialOfferCardGroup(index, card = {
+                id: '',
+                title: '',
+                description: '',
+                price: '',
+                original_price: '',
+                discount_code: '',
+                discount_percentage: ''
+            }) {
                 const group = document.createElement('div');
                 group.className = 'special-offer-group';
                 group.dataset.index = index;
@@ -1617,18 +1770,31 @@
                     <button type="button" class="remove-special-offer-btn" onclick="removeSpecialOfferCardField(${index})"><i class="fas fa-trash"></i> Remove Special Offer Item</button>
                 `;
 
-                group.querySelector('.offer-title').addEventListener('input', e => syncSpecialOfferInput(index, 'title', e.target.value));
-                group.querySelector('.offer-description').addEventListener('input', e => syncSpecialOfferInput(index, 'description', e.target.value));
-                group.querySelector('.offer-price').addEventListener('input', e => syncSpecialOfferInput(index, 'price', e.target.value));
-                group.querySelector('.offer-original-price').addEventListener('input', e => syncSpecialOfferInput(index, 'original_price', e.target.value));
-                group.querySelector('.offer-discount-code').addEventListener('input', e => syncSpecialOfferInput(index, 'discount_code', e.target.value));
-                group.querySelector('.offer-discount-percentage').addEventListener('input', e => syncSpecialOfferInput(index, 'discount_percentage', e.target.value));
+                group.querySelector('.offer-title').addEventListener('input', e => syncSpecialOfferInput(index, 'title', e
+                    .target.value));
+                group.querySelector('.offer-description').addEventListener('input', e => syncSpecialOfferInput(index,
+                    'description', e.target.value));
+                group.querySelector('.offer-price').addEventListener('input', e => syncSpecialOfferInput(index, 'price', e
+                    .target.value));
+                group.querySelector('.offer-original-price').addEventListener('input', e => syncSpecialOfferInput(index,
+                    'original_price', e.target.value));
+                group.querySelector('.offer-discount-code').addEventListener('input', e => syncSpecialOfferInput(index,
+                    'discount_code', e.target.value));
+                group.querySelector('.offer-discount-percentage').addEventListener('input', e => syncSpecialOfferInput(index,
+                    'discount_percentage', e.target.value));
 
                 return group;
             }
 
             function addSpecialOfferCardField() {
-                allSpecialOfferCards.push({ title: '', description: '', price: '', original_price: '', discount_code: '', discount_percentage: '' });
+                allSpecialOfferCards.push({
+                    title: '',
+                    description: '',
+                    price: '',
+                    original_price: '',
+                    discount_code: '',
+                    discount_percentage: ''
+                });
                 populateSpecialOfferDropdown();
                 document.getElementById('sortSpecialOfferItems').value = allSpecialOfferCards.length - 1;
                 displaySpecialOfferItem();
@@ -1723,7 +1889,15 @@
                 sectionsContainer.appendChild(createAdditionalSectionGroup(selectedIndex, section));
             }
 
-            function createAdditionalSectionGroup(index, section = { id: '', title: '', description: '', link_text: '', link_url: '', icon: '', target: '' }) {
+            function createAdditionalSectionGroup(index, section = {
+                id: '',
+                title: '',
+                description: '',
+                link_text: '',
+                link_url: '',
+                icon: '',
+                target: ''
+            }) {
                 const group = document.createElement('div');
                 group.className = 'section-group';
                 group.dataset.index = index;
@@ -1761,12 +1935,18 @@
                     <button type="button" class="remove-section-btn" onclick="removeAdditionalSectionField(${index})"><i class="fas fa-trash"></i> Remove Section</button>
                 `;
 
-                group.querySelector('.section-title').addEventListener('input', e => syncAdditionalSectionInput(index, 'title', e.target.value));
-                group.querySelector('.section-description').addEventListener('input', e => syncAdditionalSectionInput(index, 'description', e.target.value));
-                group.querySelector('.section-link-text').addEventListener('input', e => syncAdditionalSectionInput(index, 'link_text', e.target.value));
-                group.querySelector('.section-link-url').addEventListener('input', e => syncAdditionalSectionInput(index, 'link_url', e.target.value));
-                group.querySelector('.section-icon').addEventListener('input', e => syncAdditionalSectionInput(index, 'icon', e.target.value));
-                group.querySelector('.section-target').addEventListener('change', e => syncAdditionalSectionInput(index, 'target', e.target.value));
+                group.querySelector('.section-title').addEventListener('input', e => syncAdditionalSectionInput(index, 'title',
+                    e.target.value));
+                group.querySelector('.section-description').addEventListener('input', e => syncAdditionalSectionInput(index,
+                    'description', e.target.value));
+                group.querySelector('.section-link-text').addEventListener('input', e => syncAdditionalSectionInput(index,
+                    'link_text', e.target.value));
+                group.querySelector('.section-link-url').addEventListener('input', e => syncAdditionalSectionInput(index,
+                    'link_url', e.target.value));
+                group.querySelector('.section-icon').addEventListener('input', e => syncAdditionalSectionInput(index, 'icon', e
+                    .target.value));
+                group.querySelector('.section-target').addEventListener('change', e => syncAdditionalSectionInput(index,
+                    'target', e.target.value));
 
                 return group;
             }
@@ -1777,7 +1957,15 @@
             }
 
             function addAdditionalSectionField() {
-                allAdditionalSections.push({ id: '', title: '', description: '', link_text: '', link_url: '', icon: '', target: '' });
+                allAdditionalSections.push({
+                    id: '',
+                    title: '',
+                    description: '',
+                    link_text: '',
+                    link_url: '',
+                    icon: '',
+                    target: ''
+                });
                 populateAdditionalSectionsDropdown();
                 document.getElementById('sortAdditionalSectionsEdit').value = allAdditionalSections.length - 1;
                 displayAdditionalSection();
