@@ -58,7 +58,7 @@
             <div class="section-content">
                 <h3>{{ $ownerWords->title }}</h3>
                 <div class="owner-preview">
-                    <img src="{{ $ownerWords->photo_url }}" alt="Owner Photo" class="owner-photo-preview">
+                    <img src="{{ $ownerWords->photo_path ? asset($ownerWords->photo_path) : asset('storage/owner_photos/default.jpg') }}" alt="Owner Photo" class="owner-photo-preview">
                     <div>
                         <p class="quote">"{{ $ownerWords->quote }}"</p>
                         <p class="signature">{{ $ownerWords->signature }}</p>
@@ -104,16 +104,26 @@
             <button class="close-btn" onclick="closeEditOwnerOverlay()"><i class="fas fa-times"></i></button>
             <h2>Edit Owner Words Section</h2>
             <div class="form-section">
-                <form method="POST" action="{{ route('admin.home-sections.update-owner') }}">
+                <form method="POST" action="{{ route('admin.home-sections.update-owner') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label>Title</label>
                         <input type="text" name="title" value="{{ $ownerWords->title }}" required>
                     </div>
                     <div class="form-group">
-                        <label>Photo URL</label>
-                        <input type="text" name="photo_url" value="{{ $ownerWords->photo_url }}" placeholder="https://example.com/photo.jpg">
-                        <small>Enter image URL from Cloudinary or other source</small>
+                        <label>Current Photo</label>
+                        @if($ownerWords->photo_path)
+                            <div class="image-preview-container">
+                                <img src="{{ asset($ownerWords->photo_path) }}" alt="Current Photo" class="image-preview">
+                            </div>
+                        @endif
+                    </div>
+                    <div class="form-group">
+                        <label>Change Photo (Optional)</label>
+                        <input type="file" name="photo" accept="image/*" class="file-input" onchange="previewOwnerPhoto(this)">
+                        <div id="ownerPhotoPreview" class="image-preview-container" style="display:none;">
+                            <img id="ownerPhotoPreviewImg" src="" alt="New Photo Preview" class="image-preview">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Quote</label>
@@ -421,6 +431,27 @@
                 margin-top: 4px;
             }
 
+            .overlay-content .form-section input.file-input {
+                padding: 8px;
+                cursor: pointer;
+            }
+
+            .image-preview-container {
+                margin-top: 10px;
+                border: 2px dashed #e2e8f0;
+                border-radius: 8px;
+                padding: 15px;
+                text-align: center;
+                background: #f8faf9;
+            }
+
+            .image-preview {
+                max-width: 100%;
+                max-height: 250px;
+                border-radius: 6px;
+                object-fit: contain;
+            }
+
             .overlay-content .form-section input:focus,
             .overlay-content .form-section textarea:focus {
                 border-color: #2a8b4e;
@@ -502,6 +533,20 @@
 
             function closeEditOwnerOverlay() {
                 document.getElementById('editOwnerOverlay').classList.remove('active');
+            }
+
+            function previewOwnerPhoto(input) {
+                const preview = document.getElementById('ownerPhotoPreview');
+                const previewImg = document.getElementById('ownerPhotoPreviewImg');
+
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
             }
 
             // Close on escape key

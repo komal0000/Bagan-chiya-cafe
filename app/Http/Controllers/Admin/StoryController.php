@@ -293,15 +293,23 @@ public function storeGalleryItem(Request $request)
     $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'required|string',
-        'image_url' => 'required|string|max:500',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
     ]);
+
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('storage/story_gallery'), $imageName);
+        $imagePath = 'storage/story_gallery/' . $imageName;
+    }
 
     $maxOrder = \App\Models\StoryGalleryItem::max('order') ?? 0;
 
     \App\Models\StoryGalleryItem::create([
         'title' => $request->input('title'),
         'description' => $request->input('description'),
-        'image_url' => $request->input('image_url'),
+        'image_path' => $imagePath,
         'order' => $maxOrder + 1,
     ]);
     return redirect()->route('admin.story.index')->with('success', 'Gallery item added!');
@@ -312,19 +320,37 @@ public function updateGalleryItem(Request $request, \App\Models\StoryGalleryItem
     $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'required|string',
-        'image_url' => 'required|string|max:500',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
     ]);
 
-    $galleryItem->update([
+    $data = [
         'title' => $request->input('title'),
         'description' => $request->input('description'),
-        'image_url' => $request->input('image_url'),
-    ]);
+    ];
+
+    if ($request->hasFile('image')) {
+        // Delete old image if exists
+        if ($galleryItem->image_path && file_exists(public_path($galleryItem->image_path))) {
+            unlink(public_path($galleryItem->image_path));
+        }
+
+        $image = $request->file('image');
+        $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('storage/story_gallery'), $imageName);
+        $data['image_path'] = 'storage/story_gallery/' . $imageName;
+    }
+
+    $galleryItem->update($data);
     return redirect()->route('admin.story.index')->with('success', 'Gallery item updated!');
 }
 
 public function destroyGalleryItem(\App\Models\StoryGalleryItem $galleryItem)
 {
+    // Delete image file if exists
+    if ($galleryItem->image_path && file_exists(public_path($galleryItem->image_path))) {
+        unlink(public_path($galleryItem->image_path));
+    }
+
     $galleryItem->delete();
     return redirect()->route('admin.story.index')->with('success', 'Gallery item deleted!');
 }

@@ -26,7 +26,7 @@ class HomeSectionController extends Controller
             [],
             [
                 'title' => 'Words From Our Founder',
-                'photo_url' => 'https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038926/WhatsApp_Image_2025-07-31_at_6.28.54_PM_1_tiivhu.jpg',
+                'photo_path' => null,
                 'quote' => 'At Bagan Chiya Cafe, we pour our heart into every cup. Our mission is to share the rich tea culture of Nepal with the world, using only the finest ingredients. Come join us for a taste of tradition!',
                 'signature' => '- Sandip Giree, Founder'
             ]
@@ -56,13 +56,32 @@ class HomeSectionController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'photo_url' => 'nullable|string|max:500',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'quote' => 'required|string',
             'signature' => 'required|string|max:255',
         ]);
 
         $ownerWords = OwnerWordsSection::first();
-        $ownerWords->update($request->all());
+
+        $data = [
+            'title' => $request->input('title'),
+            'quote' => $request->input('quote'),
+            'signature' => $request->input('signature'),
+        ];
+
+        if ($request->hasFile('photo')) {
+            // Delete old photo if exists
+            if ($ownerWords->photo_path && file_exists(public_path($ownerWords->photo_path))) {
+                unlink(public_path($ownerWords->photo_path));
+            }
+
+            $photo = $request->file('photo');
+            $photoName = time() . '_owner.' . $photo->getClientOriginalExtension();
+            $photo->move(public_path('storage/owner_photos'), $photoName);
+            $data['photo_path'] = 'storage/owner_photos/' . $photoName;
+        }
+
+        $ownerWords->update($data);
 
         return redirect()->back()->with('success', 'Owner words section updated successfully!');
     }

@@ -10,7 +10,7 @@ class OwnerWordsSection extends Model
 
     protected $fillable = [
         'title',
-        'photo_url',
+        'photo_path',
         'quote',
         'signature',
     ];

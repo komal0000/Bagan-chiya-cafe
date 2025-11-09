@@ -11,7 +11,7 @@ class StoryGalleryItem extends Model
     protected $fillable = [
         'title',
         'description',
-        'image_url',
+        'image_path',
         'order',
     ];
 }

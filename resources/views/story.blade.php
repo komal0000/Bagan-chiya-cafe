@@ -57,7 +57,7 @@
             <div class="enhanced-gallery">
                 @foreach ($galleryItems as $item)
                     <div class="gallery-item">
-                        <img src="{{ $item->image_url }}" alt="{{ $item->title }}">
+                        <img src="{{ asset($item->image_path) }}" alt="{{ $item->title }}">
                         <div class="gallery-overlay">
                             <h4>{{ $item->title }}</h4>
                             <p>{{ $item->description }}</p>

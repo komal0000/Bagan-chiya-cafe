@@ -138,13 +138,13 @@
                             @if (isset($galleryItems) && $galleryItems->count() > 0)
                                 @foreach ($galleryItems as $item)
                                     <div class="gallery-card">
-                                        <img src="{{ $item->image_url }}" alt="{{ $item->title }}">
+                                        <img src="{{ asset($item->image_path) }}" alt="{{ $item->title }}">
                                         <div class="gallery-card-content">
                                             <h3>{{ $item->title }}</h3>
                                             <p>{{ $item->description }}</p>
                                             <div class="actions">
                                                 <button class="edit-gallery-btn"
-                                                    onclick="openEditGalleryOverlay('{{ $item->id }}', '{{ e($item->title) }}', '{{ e($item->description) }}', '{{ e($item->image_url) }}')">
+                                                    onclick="openEditGalleryOverlay('{{ $item->id }}', '{{ e($item->title) }}', '{{ e($item->description) }}', '{{ asset($item->image_path) }}')">
                                                     <i class="fas fa-edit"></i> Edit
                                                 </button>
                                                 <form method="POST" action="{{ route('admin.story.gallery.destroy', $item) }}"
@@ -666,7 +666,7 @@
                 <button class="close-btn" onclick="closeAddGalleryOverlay()"><i class="fas fa-times"></i></button>
                 <div class="form-section">
                     <h2>Add Gallery Item</h2>
-                    <form method="POST" action="{{ route('admin.story.gallery.store') }}">
+                    <form method="POST" action="{{ route('admin.story.gallery.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label>Title</label>
@@ -677,8 +677,11 @@
                             <textarea name="description" placeholder="e.g., Hand-picked from Eastern Nepal's finest high-altitude gardens" required></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Image URL</label>
-                            <input type="text" name="image_url" placeholder="e.g., https://example.com/image.jpg" required />
+                            <label>Image</label>
+                            <input type="file" name="image" accept="image/*" required class="file-input" onchange="previewAddGalleryImage(this)" />
+                            <div id="addGalleryImagePreview" class="image-preview-container" style="display:none;">
+                                <img id="addGalleryImagePreviewImg" src="" alt="Preview" class="image-preview">
+                            </div>
                         </div>
                         <button type="submit"><i class="fas fa-save"></i> Save Gallery Item</button>
                     </form>
@@ -692,7 +695,7 @@
                 <button class="close-btn" onclick="closeEditGalleryOverlay()"><i class="fas fa-times"></i></button>
                 <div class="form-section">
                     <h2>Edit Gallery Item</h2>
-                    <form id="editGalleryForm" method="POST">
+                    <form id="editGalleryForm" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
@@ -704,8 +707,17 @@
                             <textarea id="editGalleryItemDescription" name="description" required></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Image URL</label>
-                            <input id="editGalleryItemImageUrl" name="image_url" type="text" required />
+                            <label>Current Image</label>
+                            <div id="editGalleryCurrentImagePreview" class="image-preview-container">
+                                <img id="editGalleryCurrentImage" src="" alt="Current Image" class="image-preview">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Change Image (Optional)</label>
+                            <input type="file" name="image" accept="image/*" class="file-input" onchange="previewEditGalleryImage(this)" />
+                            <div id="editGalleryNewImagePreview" class="image-preview-container" style="display:none;">
+                                <img id="editGalleryNewImagePreviewImg" src="" alt="New Preview" class="image-preview">
+                            </div>
                         </div>
                         <button type="submit"><i class="fas fa-save"></i> Save Changes</button>
                     </form>
@@ -1387,6 +1399,27 @@
                 min-height: 80px;
             }
 
+            .overlay-content .form-section input.file-input {
+                padding: 6px;
+                cursor: pointer;
+            }
+
+            .image-preview-container {
+                margin-top: 10px;
+                border: 2px dashed #b8d7bc;
+                border-radius: 8px;
+                padding: 10px;
+                text-align: center;
+                background: #f8faf9;
+            }
+
+            .image-preview {
+                max-width: 100%;
+                max-height: 200px;
+                border-radius: 6px;
+                object-fit: contain;
+            }
+
             .overlay-content .form-section input:focus,
             .overlay-content .form-section textarea:focus {
                 border-color: #3da65f;
@@ -1755,8 +1788,9 @@
                     closeAllOverlays();
                     document.getElementById('editGalleryItemTitle').value = title;
                     document.getElementById('editGalleryItemDescription').value = description;
-                    document.getElementById('editGalleryItemImageUrl').value = imageUrl;
+                    document.getElementById('editGalleryCurrentImage').src = imageUrl;
                     document.getElementById('editGalleryForm').action = '/admin/story/gallery/' + id;
+                    document.getElementById('editGalleryNewImagePreview').style.display = 'none';
                     document.getElementById('editGalleryOverlay').classList.add('active');
                 } catch (e) {
                     console.error('Error opening edit gallery overlay:', e);
@@ -1765,6 +1799,34 @@
 
             function closeEditGalleryOverlay() {
                 document.getElementById('editGalleryOverlay').classList.remove('active');
+            }
+
+            function previewAddGalleryImage(input) {
+                const preview = document.getElementById('addGalleryImagePreview');
+                const previewImg = document.getElementById('addGalleryImagePreviewImg');
+
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            function previewEditGalleryImage(input) {
+                const preview = document.getElementById('editGalleryNewImagePreview');
+                const previewImg = document.getElementById('editGalleryNewImagePreviewImg');
+
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
             }
 
             function closeAllOverlays() {
