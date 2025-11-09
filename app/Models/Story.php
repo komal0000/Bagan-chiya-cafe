@@ -20,7 +20,11 @@ class Story extends Model
         'cta_intro',
         'cta_link',
         'cta_button',
-     
+        'gallery_title',
+        'hero_subtitle',
+        'cta_description',
+        'cta_button_text',
+
     ];
     public function timelines()
     {

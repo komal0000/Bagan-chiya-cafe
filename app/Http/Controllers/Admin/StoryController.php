@@ -16,7 +16,8 @@ class StoryController extends Controller
     $story = \App\Models\Story::first();
     $timelineItems = $story ? $story->timelines()->orderBy('year')->get() : collect();
     $values = $story ? $story->values : collect();
-    $teamMembers = $story ? $story->teamMembers : collect(); 
+    $teamMembers = $story ? $story->teamMembers : collect();
+    $galleryItems = \App\Models\StoryGalleryItem::orderBy('order')->get();
 
     return view('admin.story.index', [
         'badgeText' => $story->hero_badge ?? 'Since Mangsir • Born in Damak',
@@ -28,13 +29,18 @@ class StoryController extends Controller
         'timelineItems' => $timelineItems,
         'story' => $story,
         'values' => $values,
-        'teamMembers' => $teamMembers, 
+        'teamMembers' => $teamMembers,
+        'galleryItems' => $galleryItems,
+        'galleryTitle' => $story->gallery_title ?? 'Our Tea Heritage',
         'teamTitle' => $story->team_title ?? 'Meet Our Team',
         'teamIntro' => $story->team_intro ?? '',
         'ctaTitle' => $story->cta_title ?? 'Visit Us in Damak',
         'ctaDescription' => $story->cta_description ?? 'Experience the authentic taste of Nepal\'s finest teas in the heart of where our story began.',
         'ctaLink' => $story->cta_link ?? asset(''),
         'ctaButtonText' => $story->cta_button_text ?? 'Back to Home',
+        'missionTitle' => $story->mission_title ?? 'Our Mission',
+        'missionText' => $story->mission_text ?? '',
+        'valuesTitle' => $story->values_title ?? 'Our Values',
     ]);
 }
     public function edit()
@@ -91,7 +97,7 @@ public function storeTimeline(Request $request)
     \App\Models\Timeline::create([
         'story_id' => $story->id,
         'year' => $request->input('year'),
-        'location' => $request->input('location'), 
+        'location' => $request->input('location'),
         'description' => $request->input('description'),
         'link' => $request->input('link'),
     ]);
@@ -213,12 +219,14 @@ public function show()
     $timelineItems = $story ? $story->timelines()->orderBy('year')->get() : collect();
     $values = $story ? $story->values : collect();
     $teamMembers = $story ? $story->teamMembers : collect();
+    $galleryItems = \App\Models\StoryGalleryItem::orderBy('order')->get();
 
     return view('story', [
         'story' => $story,
         'timelineItems' => $timelineItems,
         'values' => $values,
         'teamMembers' => $teamMembers,
+        'galleryItems' => $galleryItems,
     ]);
 }
 
@@ -258,5 +266,66 @@ public function updateCta(Request $request)
         $story->update($data);
     }
     return redirect()->route('admin.story.index')->with('success', 'CTA updated!');
+}
+
+// Gallery Methods
+public function updateGalleryTitle(Request $request)
+{
+    $request->validate([
+        'gallery_title' => 'required|string|max:255',
+    ]);
+
+    $story = \App\Models\Story::first();
+    if (!$story) {
+        $story = \App\Models\Story::create([
+            'gallery_title' => $request->input('gallery_title'),
+        ]);
+    } else {
+        $story->update([
+            'gallery_title' => $request->input('gallery_title'),
+        ]);
+    }
+    return redirect()->route('admin.story.index')->with('success', 'Gallery title updated!');
+}
+
+public function storeGalleryItem(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'image_url' => 'required|string|max:500',
+    ]);
+
+    $maxOrder = \App\Models\StoryGalleryItem::max('order') ?? 0;
+
+    \App\Models\StoryGalleryItem::create([
+        'title' => $request->input('title'),
+        'description' => $request->input('description'),
+        'image_url' => $request->input('image_url'),
+        'order' => $maxOrder + 1,
+    ]);
+    return redirect()->route('admin.story.index')->with('success', 'Gallery item added!');
+}
+
+public function updateGalleryItem(Request $request, \App\Models\StoryGalleryItem $galleryItem)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'image_url' => 'required|string|max:500',
+    ]);
+
+    $galleryItem->update([
+        'title' => $request->input('title'),
+        'description' => $request->input('description'),
+        'image_url' => $request->input('image_url'),
+    ]);
+    return redirect()->route('admin.story.index')->with('success', 'Gallery item updated!');
+}
+
+public function destroyGalleryItem(\App\Models\StoryGalleryItem $galleryItem)
+{
+    $galleryItem->delete();
+    return redirect()->route('admin.story.index')->with('success', 'Gallery item deleted!');
 }
 }

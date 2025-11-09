@@ -85,6 +85,13 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('/story/team/store', [\App\Http\Controllers\Admin\StoryController::class, 'storeTeam'])->name('admin.story.team.store');
     Route::put('/story/team/{teamMember}', [\App\Http\Controllers\Admin\StoryController::class, 'updateTeam'])->name('admin.story.team.update');
 Route::delete('/story/team/{teamMember}', [\App\Http\Controllers\Admin\StoryController::class, 'destroyTeam'])->name('admin.story.team.destroy');
+
+    // Story Gallery Routes
+    Route::post('/story/gallery/title/update', [\App\Http\Controllers\Admin\StoryController::class, 'updateGalleryTitle'])->name('admin.story.gallery.title.update');
+    Route::post('/story/gallery/store', [\App\Http\Controllers\Admin\StoryController::class, 'storeGalleryItem'])->name('admin.story.gallery.store');
+    Route::put('/story/gallery/{galleryItem}', [\App\Http\Controllers\Admin\StoryController::class, 'updateGalleryItem'])->name('admin.story.gallery.update');
+    Route::delete('/story/gallery/{galleryItem}', [\App\Http\Controllers\Admin\StoryController::class, 'destroyGalleryItem'])->name('admin.story.gallery.destroy');
+
 Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard.index');
 
 Route::post('/hero/update', [\App\Http\Controllers\Admin\DashboardController::class, 'updateHero'])->name('admin.hero.update');
@@ -95,5 +102,10 @@ Route::post('/special-offer/update', [\App\Http\Controllers\Admin\DashboardContr
 
 Route::post('/tea/update', [\App\Http\Controllers\Admin\DashboardController::class, 'updateTea'])->name('admin.tea.update');
 Route::post('/additional-sections/update', [\App\Http\Controllers\Admin\DashboardController::class, 'updateAdditionalSections'])->name('admin.additional-sections.update');
+
+    // Home Sections Routes
+    Route::get('/home-sections', [\App\Http\Controllers\Admin\HomeSectionController::class, 'index'])->name('admin.home-sections.index');
+    Route::post('/home-sections/gallery', [\App\Http\Controllers\Admin\HomeSectionController::class, 'updateGallerySection'])->name('admin.home-sections.update-gallery');
+    Route::post('/home-sections/owner', [\App\Http\Controllers\Admin\HomeSectionController::class, 'updateOwnerWords'])->name('admin.home-sections.update-owner');
 
 });

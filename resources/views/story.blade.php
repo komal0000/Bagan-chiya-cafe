@@ -53,48 +53,18 @@
         </div>
 
         <div class="gallery-section">
-            <h2 class="section-title">Our Tea Heritage</h2>
+            <h2 class="section-title">{{ $story->gallery_title ?? 'Our Tea Heritage' }}</h2>
             <div class="enhanced-gallery">
-                <div class="gallery-item">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038926/WhatsApp_Image_2025-07-31_at_6.28.53_PM_kywbzw.jpg"
-                        alt="Premium Tea Leaves">
-                    <div class="gallery-overlay">
-                        <h4>Premium Tea Leaves</h4>
-                        <p>Hand-picked from Eastern Nepal's finest high-altitude gardens</p>
+                @foreach ($galleryItems as $item)
+                    <div class="gallery-item">
+                        <img src="{{ $item->image_url }}" alt="{{ $item->title }}">
+                        <div class="gallery-overlay">
+                            <h4>{{ $item->title }}</h4>
+                            <p>{{ $item->description }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038927/WhatsApp_Image_2025-07-31_at_6.28.55_PM_2_x7xcer.jpg"
-                        alt="Artisanal Preparation">
-                    <div class="gallery-overlay">
-                        <h4>Artisanal Preparation</h4>
-                        <p>Traditional methods perfected with modern precision and care</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038926/WhatsApp_Image_2025-07-31_at_6.28.54_PM_1_tiivhu.jpg"
-                        alt="Tea Gardens">
-                    <div class="gallery-overlay">
-                        <h4>Pristine Tea Gardens</h4>
-                        <p>Sourced from Nepal's breathtaking Himalayan foothills</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038926/WhatsApp_Image_2025-07-31_at_6.28.54_PM_qsnpft.jpg"
-                        alt="Tea Ceremony">
-                    <div class="gallery-overlay">
-                        <h4>Cultural Ceremony</h4>
-                        <p>Honoring Nepal's timeless tea traditions and rituals</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://res.cloudinary.com/dzdinuw5d/image/upload/v1754038925/WhatsApp_Image_2025-07-31_at_6.28.55_PM_h8akma.jpg"
-                        alt="Tea Tasting">
-                    <div class="gallery-overlay">
-                        <h4>Expert Tea Tasting</h4>
-                        <p>Curated experiences that awaken all your senses</p>
-                    </div>
-                </div>
+                @endforeach
+
             </div>
         </div>
 

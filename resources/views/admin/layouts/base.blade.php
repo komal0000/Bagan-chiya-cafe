@@ -951,7 +951,7 @@
                     <li>
                         <a href="{{ route('admin.dashboard.index') }}" class="{{ request()->routeIs('admin.dashboard.*') ? 'active' : '' }}">
                             <i class="fas fa-tachometer-alt"></i>
-                            <span>Dashboard</span>
+                            <span>Home</span>
                         </a>
                     </li>
                     <li>
@@ -976,6 +976,12 @@
                         <a href="{{ route('admin.about.index') }}" class="{{ request()->routeIs('admin.about.*') ? 'active' : '' }}">
                             <i class="fas fa-info-circle"></i>
                             <span>About Us</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.home-sections.index') }}" class="{{ request()->routeIs('admin.home-sections.*') ? 'active' : '' }}">
+                            <i class="fas fa-home"></i>
+                            <span>Home Sections</span>
                         </a>
                     </li>
                 </ul>

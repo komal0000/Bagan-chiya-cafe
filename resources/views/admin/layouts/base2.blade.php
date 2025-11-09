@@ -634,6 +634,12 @@
                             <span>Visit Us</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.home-sections.index') }}" class="nav-link {{ request()->routeIs('admin.home-sections.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-home"></i>
+                            <span>Home Sections</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>

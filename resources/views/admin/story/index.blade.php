@@ -112,6 +112,61 @@
                     </div>
                 </div>
 
+                <!-- Gallery Section -->
+                <div class="story-section-wrapper">
+                    <div class="section-header">
+                        <div class="section-header-left">
+                            <div class="section-icon">
+                                <i class="fas fa-images"></i>
+                            </div>
+                            <div>
+                                <h2 class="section-title">{{ $galleryTitle ?? 'Our Tea Heritage' }}</h2>
+                                <p class="section-subtitle">Visual storytelling through images</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="edit-gallery-title-btn" onclick="openEditGalleryTitleOverlay('{{ e($galleryTitle ?? 'Our Tea Heritage') }}')">
+                                <i class="fas fa-edit"></i> Edit Title
+                            </button>
+                            <button class="add-gallery-btn" onclick="openAddGalleryOverlay()">
+                                <i class="fas fa-plus"></i> Add Gallery Item
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-section">
+                        <div class="gallery-grid">
+                            @if (isset($galleryItems) && $galleryItems->count() > 0)
+                                @foreach ($galleryItems as $item)
+                                    <div class="gallery-card">
+                                        <img src="{{ $item->image_url }}" alt="{{ $item->title }}">
+                                        <div class="gallery-card-content">
+                                            <h3>{{ $item->title }}</h3>
+                                            <p>{{ $item->description }}</p>
+                                            <div class="actions">
+                                                <button class="edit-gallery-btn"
+                                                    onclick="openEditGalleryOverlay('{{ $item->id }}', '{{ e($item->title) }}', '{{ e($item->description) }}', '{{ e($item->image_url) }}')">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </button>
+                                                <form method="POST" action="{{ route('admin.story.gallery.destroy', $item) }}"
+                                                    style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="delete-btn"
+                                                        onclick="return confirm('Delete this gallery item?')">
+                                                        <i class="fas fa-trash"></i> Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <p class="no-items">No gallery items found. Add a new gallery item to get started.</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Mission Section -->
                 <div class="story-section-wrapper">
                     <div class="section-header">
@@ -586,6 +641,77 @@
                 </div>
             </div>
         </div>
+
+        <!-- Overlay for Edit Gallery Title -->
+        <div class="overlay" id="editGalleryTitleOverlay">
+            <div class="overlay-content">
+                <button class="close-btn" onclick="closeEditGalleryTitleOverlay()"><i class="fas fa-times"></i></button>
+                <div class="form-section">
+                    <h2>Edit Gallery Title</h2>
+                    <form id="editGalleryTitleForm" method="POST" action="{{ route('admin.story.gallery.title.update') }}">
+                        @csrf
+                        <div class="form-group">
+                            <label>Gallery Title</label>
+                            <input id="editGalleryTitle" name="gallery_title" type="text" required />
+                        </div>
+                        <button type="submit"><i class="fas fa-save"></i> Save Title</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overlay for Add Gallery Item -->
+        <div class="overlay" id="addGalleryOverlay">
+            <div class="overlay-content">
+                <button class="close-btn" onclick="closeAddGalleryOverlay()"><i class="fas fa-times"></i></button>
+                <div class="form-section">
+                    <h2>Add Gallery Item</h2>
+                    <form method="POST" action="{{ route('admin.story.gallery.store') }}">
+                        @csrf
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" name="title" placeholder="e.g., Premium Tea Leaves" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea name="description" placeholder="e.g., Hand-picked from Eastern Nepal's finest high-altitude gardens" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Image URL</label>
+                            <input type="text" name="image_url" placeholder="e.g., https://example.com/image.jpg" required />
+                        </div>
+                        <button type="submit"><i class="fas fa-save"></i> Save Gallery Item</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overlay for Edit Gallery Item -->
+        <div class="overlay" id="editGalleryOverlay">
+            <div class="overlay-content">
+                <button class="close-btn" onclick="closeEditGalleryOverlay()"><i class="fas fa-times"></i></button>
+                <div class="form-section">
+                    <h2>Edit Gallery Item</h2>
+                    <form id="editGalleryForm" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input id="editGalleryItemTitle" name="title" type="text" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="editGalleryItemDescription" name="description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Image URL</label>
+                            <input id="editGalleryItemImageUrl" name="image_url" type="text" required />
+                        </div>
+                        <button type="submit"><i class="fas fa-save"></i> Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     @push('styles')
@@ -1013,6 +1139,98 @@
                 justify-content: center;
             }
 
+            /* Gallery Section */
+            .gallery-section {
+                background: #ffffff;
+                padding: 12px;
+                border-radius: 10px;
+                margin-bottom: 16px;
+            }
+
+            .gallery-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+                margin-top: 12px;
+            }
+
+            .gallery-card {
+                background: #ffffff;
+                border-radius: 10px;
+                overflow: hidden;
+                border: 1px solid #e2e8f0;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .gallery-card:hover {
+                transform: scale(1.02);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            .gallery-card img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+                display: block;
+            }
+
+            .gallery-card-content {
+                padding: 12px;
+            }
+
+            .gallery-card-content h3 {
+                font-size: 1.1em;
+                font-weight: 500;
+                color: #1a3c34;
+                margin-bottom: 8px;
+            }
+
+            .gallery-card-content p {
+                font-size: 0.9em;
+                color: #4a5568;
+                margin-bottom: 12px;
+                line-height: 1.5;
+            }
+
+            .gallery-card-content .actions {
+                display: flex;
+                gap: 8px;
+                justify-content: flex-start;
+            }
+
+            .edit-gallery-title-btn,
+            .add-gallery-btn,
+            .edit-gallery-btn {
+                background: linear-gradient(135deg, #2a8b4e 0%, #1a5630 100%);
+                color: #ffffff;
+                font-weight: 500;
+                font-size: 0.9em;
+                padding: 10px 18px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
+            }
+
+            .edit-gallery-title-btn:hover,
+            .add-gallery-btn:hover,
+            .edit-gallery-btn:hover {
+                background: linear-gradient(135deg, #3da65f 0%, #2a8b4e 100%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(42, 139, 78, 0.4);
+            }
+
+            .edit-gallery-title-btn:active,
+            .add-gallery-btn:active,
+            .edit-gallery-btn:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 5px rgba(42, 139, 78, 0.3);
+            }
+
             /* CTA Section */
             .cta-section {
                 background: #ffffff;
@@ -1220,7 +1438,8 @@
             /* Desktop (default: width >= 1024px) */
             @media (max-width: 1024px) {
                 .values-grid,
-                .team-grid {
+                .team-grid,
+                .gallery-grid {
                     grid-template-columns: repeat(2, 1fr);
                 }
 
@@ -1233,7 +1452,8 @@
             /* Tablet (640px <= width < 1024px) */
             @media (max-width: 640px) {
                 .values-grid,
-                .team-grid {
+                .team-grid,
+                .gallery-grid {
                     grid-template-columns: 1fr;
                 }
 
@@ -1269,7 +1489,10 @@
                 .edit-team-title-btn,
                 .add-team-btn,
                 .edit-team-btn,
-                .edit-cta-btn {
+                .edit-cta-btn,
+                .edit-gallery-title-btn,
+                .add-gallery-btn,
+                .edit-gallery-btn {
                     padding: 5px 10px;
                     font-size: 0.8em;
                 }
@@ -1498,6 +1721,50 @@
 
             function closeEditCtaOverlay() {
                 document.getElementById('editCtaOverlay').classList.remove('active');
+            }
+
+            function openEditGalleryTitleOverlay(title) {
+                try {
+                    closeAllOverlays();
+                    document.getElementById('editGalleryTitle').value = title;
+                    document.getElementById('editGalleryTitleOverlay').classList.add('active');
+                } catch (e) {
+                    console.error('Error opening gallery title overlay:', e);
+                }
+            }
+
+            function closeEditGalleryTitleOverlay() {
+                document.getElementById('editGalleryTitleOverlay').classList.remove('active');
+            }
+
+            function openAddGalleryOverlay() {
+                try {
+                    closeAllOverlays();
+                    document.getElementById('addGalleryOverlay').classList.add('active');
+                } catch (e) {
+                    console.error('Error opening add gallery overlay:', e);
+                }
+            }
+
+            function closeAddGalleryOverlay() {
+                document.getElementById('addGalleryOverlay').classList.remove('active');
+            }
+
+            function openEditGalleryOverlay(id, title, description, imageUrl) {
+                try {
+                    closeAllOverlays();
+                    document.getElementById('editGalleryItemTitle').value = title;
+                    document.getElementById('editGalleryItemDescription').value = description;
+                    document.getElementById('editGalleryItemImageUrl').value = imageUrl;
+                    document.getElementById('editGalleryForm').action = '/admin/story/gallery/' + id;
+                    document.getElementById('editGalleryOverlay').classList.add('active');
+                } catch (e) {
+                    console.error('Error opening edit gallery overlay:', e);
+                }
+            }
+
+            function closeEditGalleryOverlay() {
+                document.getElementById('editGalleryOverlay').classList.remove('active');
             }
 
             function closeAllOverlays() {
